@@ -8,11 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers" />
+      <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
+      <ProjectReference Include="..\Blog.Infrastructure.Validator.FluentValidation\Blog.Infrastructure.Validator.FluentValidation.csproj" />
     </ItemGroup>
 
 </Project>
