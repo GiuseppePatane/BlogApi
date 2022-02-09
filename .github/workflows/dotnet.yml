@@ -6,17 +6,7 @@ on:
   pull_request:
     branches: [ main ]
 
-
 jobs:
-  services:
-    postgres:
-      image: postgres:12
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: root
-        POSTGRES_DB: postgres
-      ports:
-        - 5433:5432
   build:
 
     runs-on: ubuntu-latest
