@@ -13,8 +13,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Blog.FunctionalTests" />
       <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
       <ProjectReference Include="..\Blog.Infrastructure.Validator.FluentValidation\Blog.Infrastructure.Validator.FluentValidation.csproj" />
+      <ProjectReference Include="..\Blog.Infrastructure\Blog.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

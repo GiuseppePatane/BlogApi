@@ -1,11 +1,13 @@
 using Blog.Api.Filters;
 using Blog.Api.Middleware;
+using Blog.Infrastructure;
 using Blog.Infrastructure.Validator.FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("PostgreSqlConnection");
+builder.Services.AddDbContextWithPostgresql(connectionString);
 // Add services to the container.
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
