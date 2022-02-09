@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Reflection;
 using System.Threading.Tasks;
 using Blog.FunctionalTests.LoggerUtil;
 using Blog.Infrastructure;
@@ -15,41 +13,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using TestSupport.Helpers;
-using Xunit;
 using Xunit.Abstractions;
-using Xunit.Extensions.AssertExtensions;
 
 namespace Blog.FunctionalTests;
-
-public class AuthorControllerTest
-{
-    private ITestOutputHelper _testOutputHelper;
-
-    public AuthorControllerTest(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
-    [Fact]
-    public async Task CreateNewAuthor()
-    {
-        var request = new
-        {
-            Url = "/api/Author",
-            Body = new
-            {
-                name = "test",
-            }
-        };
-
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewAuthor),out var connectionString);
-        await TestClient.PrepareDatabase(context);
-        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
-       var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
-       response.IsSuccessStatusCode.ShouldBeTrue();
-       await TestClient.CheckDatabaseAndRemoveIt(context);
-    }
-}
 
 internal class TestClient : WebApplicationFactory<Program>
 {
@@ -65,18 +31,19 @@ internal class TestClient : WebApplicationFactory<Program>
     {
         var server = new TestClient(testOutputHelper).WithWebHostBuilder((builder =>
         {
-            builder.ConfigureServices(s =>
-            {
-                s.AddDbContextWithPostgresql(connectionString);
-            });
-            builder.ConfigureAppConfiguration(((_, configurationBuilder) =>
+            builder.ConfigureAppConfiguration((_, configurationBuilder) =>
             {
                 configurationBuilder.AddInMemoryCollection(new[]
                     {
                         new KeyValuePair<string, string>("ConnectionStrings:PostgreSqlConnection", connectionString)
                     }
                 );
-            }));
+            });
+            builder.ConfigureServices(s =>
+            {
+                s.AddDbContextWithPostgresql(connectionString);
+            });
+           
         } )).Server;
         return server.CreateClient();
     }
@@ -85,14 +52,14 @@ internal class TestClient : WebApplicationFactory<Program>
     public static BlogDbContext  GetDbContext(string databaseName,out string connectionString )
     {
         var config = AppSettings.GetConfiguration();
-         connectionString = new NpgsqlConnectionStringBuilder(
+        connectionString = new NpgsqlConnectionStringBuilder(
             config.GetConnectionString("PostgreSqlConnection"))
         {
             Database = $"{databaseName}"
         }.ToString();
         var optionsBuilder = new DbContextOptionsBuilder<BlogDbContext>();
         optionsBuilder.UseNpgsql(connectionString);
-            //x => x.MigrationsAssembly(typeof(StartupSetupDbContext).Namespace));
+        //x => x.MigrationsAssembly(typeof(StartupSetupDbContext).Namespace));
         return new BlogDbContext(optionsBuilder.Options);
     }
 
@@ -109,7 +76,7 @@ internal class TestClient : WebApplicationFactory<Program>
     
     public static IServiceProvider GetServiceProvider(ITestOutputHelper testOutputHelper)
     {
-       return new TestClient(testOutputHelper).Server.Services;
+        return new TestClient(testOutputHelper).Server.Services;
     }
     protected override IHost CreateHost(IHostBuilder builder)
     {

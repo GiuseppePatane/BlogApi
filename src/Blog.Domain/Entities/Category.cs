@@ -1,7 +1,19 @@
+using Blog.Domain.Errors;
+
 namespace Blog.Domain.Entities;
 
 public class Category:BaseEntity
 {
+    public static DomainNotificationError AlreadyExistError
+    {
+        get
+        {
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " category already exist");
+            var error = new DomainNotificationError();
+            error.AddError(errorDescription);
+            return error;
+        }
+    }
     private Category(string? id, string? name) : base(id,DateTime.UtcNow)
     {
         IsInvalidString(name);

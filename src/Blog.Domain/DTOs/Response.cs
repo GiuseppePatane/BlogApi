@@ -1,6 +1,6 @@
 namespace Blog.Domain.DTOs;
 
-public record  CreateAuthorResponse(string AuthorId);
+public record  CreateResponse(string? Id);
 
 
 

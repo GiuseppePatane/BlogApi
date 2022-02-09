@@ -7,6 +7,16 @@ namespace Blog.Domain.Entities;
 /// </summary>
 public class Author : BaseEntity
 {
+    public static DomainNotificationError AlreadyExistError
+    {
+        get
+        {
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " artist already exist");
+            var error = new DomainNotificationError();
+            error.AddError(errorDescription);
+            return error;
+        }
+    }
     /// <summary>
     /// Generate a new author 
     /// </summary>
