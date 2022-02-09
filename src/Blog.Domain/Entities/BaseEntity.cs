@@ -9,14 +9,12 @@ public abstract class BaseEntity
     {
         IsInvalidString(id);
         IsValidDate(CreationDateUtc);
+        Fail(creationDateUtc<DateTime.UtcNow.Date,DomainNotificationError.ErrorDescription.Create("CreationDate cannot be in the past"));
         ValidateErrors();
         Id = id;
         CreationDateUtc = creationDateUtc;
     }
-    protected BaseEntity(string? id, DateTime creationDateUtc, DateTime? updateDateUtc):this(id,creationDateUtc)
-    {
-        UpdateDateUtc = updateDateUtc;
-    }
+   
     public string? Id { get; protected set; }
     public DateTime CreationDateUtc { get; protected set; }
     public DateTime? UpdateDateUtc { get; protected set; }
@@ -44,7 +42,7 @@ public abstract class BaseEntity
         }
 
         DomainNotificationError.ErrorDescription error =
-            new DomainNotificationError.ErrorDescription("InvalidGuid", errorMessage);
+             DomainNotificationError.ErrorDescription.Create("InvalidGuid", errorMessage);
         Fail(key == Guid.Empty, error);
     }
 
@@ -52,7 +50,7 @@ public abstract class BaseEntity
     {
         var errorMessage = $"Value {key} is an invalid DateTime.";
         DomainNotificationError.ErrorDescription error =
-            new DomainNotificationError.ErrorDescription("InvalidDateTime", errorMessage);
+             DomainNotificationError.ErrorDescription.Create("InvalidDateTime", errorMessage);
         Fail(!key.HasValue, error);
         if (key.HasValue)
         {
@@ -70,7 +68,7 @@ public abstract class BaseEntity
         }
 
         DomainNotificationError.ErrorDescription error =
-            new DomainNotificationError.ErrorDescription("InvalidString", errorMessage);
+             DomainNotificationError.ErrorDescription.Create("InvalidString", errorMessage);
         Fail(string.IsNullOrWhiteSpace(key), error);
     }
 
@@ -83,7 +81,7 @@ public abstract class BaseEntity
         }
 
         DomainNotificationError.ErrorDescription error =
-            new DomainNotificationError.ErrorDescription("InvalidInt", errorMessage);
+             DomainNotificationError.ErrorDescription.Create("InvalidInt", errorMessage);
         Fail(key <= 0, error);
     }
 

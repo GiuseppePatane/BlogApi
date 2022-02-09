@@ -17,30 +17,22 @@ public class Author : BaseEntity
     {
         return new Author(id, name);
     }
-
-    /// <summary>
-    /// Create a new blog post  
-    /// </summary>
-    /// <param name="blogPostId"> blog post identifier </param>
-    /// <param name="title"> the title of the post </param>
-    /// <param name="content">  the content of the post </param>
-    /// <param name="image"> image post </param>
-    public void AddBlogPost( string? blogPostId,string? title, string? content, string image)
-    {
-        var blogPost = BLogPost.Create(blogPostId, title, content, image, this);
-        Fail(BLogPosts.Any(x => x.Title.Equals(blogPost.Title, StringComparison.InvariantCultureIgnoreCase)),
-            new DomainNotificationError.ErrorDescription("DuplicatePost", "Duplicate post"));
-        ValidateErrors();
-        BLogPosts.Add(blogPost);
-    }
+    
     public string? Name { get; private set; }
-    public virtual ICollection<BLogPost> BLogPosts { get; }
+    public  List<BlogPost> BLogPosts { get; set; }
     
     private Author(string? id, string? name) : base(id, DateTime.UtcNow)
     {
         IsInvalidString(name);
         ValidateErrors();
         Name = name;
-        BLogPosts = new List<BLogPost>();
+        BLogPosts = new List<BlogPost>();
+    }
+
+    public void Update(string name)
+    {
+        IsInvalidString(name);
+        ValidateErrors();
+        Name = name;
     }
 }

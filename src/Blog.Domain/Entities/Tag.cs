@@ -9,7 +9,7 @@ public class Tag:BaseEntity
         get
         {
             DomainNotificationError.ErrorDescription errorDescription =
-                new("DomainErrorKey", " Tag not found");
+                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " Tag not found");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;
@@ -19,14 +19,14 @@ public class Tag:BaseEntity
     {
         get
         {
-            DomainNotificationError.ErrorDescription errorDescription =
-                new("DomainErrorKey", " Tag already Exist");
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " Tag already Exist");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;
         }
     }
     public  string? Name { get; private set; }
+    public  List<TagXBlogPost> TagXBlogPosts { get; set; }
 
     private Tag(string? id, string? name) : base(id, DateTime.UtcNow)
     {
@@ -44,5 +44,12 @@ public class Tag:BaseEntity
     public static Tag Create(string? id, string? name)
     {
         return new Tag(id, name);
+    }
+
+    public void Update(string name)
+    {
+        IsInvalidString(name);
+        ValidateErrors();
+        Name = name;
     }
 }

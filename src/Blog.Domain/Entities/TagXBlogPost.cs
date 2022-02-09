@@ -15,6 +15,6 @@ public class TagXBlogPost
 
     public  string BlogPostId { get; }
     public  string TagId { get; }
-    public  virtual BLogPost BLogPost { get; }
+    public  virtual BlogPost BLogPost { get; }
     public virtual  Tag Tag { get; }
 }

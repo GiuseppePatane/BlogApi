@@ -7,9 +7,9 @@ namespace Blog.Domain.Entities;
 /// <summary>
 /// A new post 
 /// </summary>
-public class BLogPost :BaseEntity
+public  class BlogPost :BaseEntity
 {
-    private BLogPost(string? id, string? title, string? content,string? image, string? authorId) : base(id, DateTime.UtcNow)
+    private BlogPost(string? id, string? title, string? content,string? image, string? authorId) : base(id, DateTime.UtcNow)
     {
         IsInvalidString(id);
         IsInvalidString(title);
@@ -33,9 +33,9 @@ public class BLogPost :BaseEntity
     /// <param name="image"></param>
     /// <param name="author"></param>
     /// <returns></returns>
-    public static BLogPost Create(string? id, string? title, string? content, string? image, Author? author)
+    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author)
     {
-        return new BLogPost(id, title, content, image, author?.Id);
+        return new BlogPost(id, title, content, image, author?.Id);
     }
 
     /// <summary>
@@ -45,10 +45,10 @@ public class BLogPost :BaseEntity
     public void AssociateWithTag(Tag? tag)
     {
         Fail(tag==null,
-            new DomainNotificationError.ErrorDescription("TagNotFound", "Tag not found."));
+             DomainNotificationError.ErrorDescription.Create("TagNotFound", "Tag not found."));
         ValidateErrors();
         Fail(TagXBlogPosts.Any(x => x.TagId == tag?.Id && x.BlogPostId == Id),
-            new DomainNotificationError.ErrorDescription("TagAlreadyAssociated", "Tag already associated."));
+             DomainNotificationError.ErrorDescription.Create("TagAlreadyAssociated", "Tag already associated."));
         ValidateErrors();
         TagXBlogPosts.Add(TagXBlogPost.Create(Id,tag.Id));
     }
@@ -60,7 +60,7 @@ public class BLogPost :BaseEntity
     public void AssociateWithCategory(Category? category)
     {
         Fail(category==null,
-            new DomainNotificationError.ErrorDescription("Category not found", "category not  found"));
+             DomainNotificationError.ErrorDescription.Create("Category not found", "category not  found"));
         ValidateErrors();
         CategoryId = category?.Id;
     }
@@ -70,9 +70,17 @@ public class BLogPost :BaseEntity
     public  string? Image { get; private set; }
     public  string? CategoryId { get; private set; }
     
-    public  virtual  ICollection<TagXBlogPost> TagXBlogPosts { get; private set; }
-    public  virtual Category Category { get; private set; }
-    public  virtual Author  Author { get; private set; }
+    public ICollection<TagXBlogPost> TagXBlogPosts { get; private set; }
+    public Category Category { get; private set; }
+    public Author  Author { get; private set; }
 
-  
+
+    public void Update(string title, string content, string image)
+    {
+        bool endited = false;
+        if (!string.IsNullOrWhiteSpace(title))  { Title = title; endited = true;}
+        if (!string.IsNullOrWhiteSpace(content)) {Content = content; endited = true; }
+        if (!string.IsNullOrWhiteSpace(image)){ Image = image; endited = true; }
+        if(endited) UpdateDateUtc=DateTime.UtcNow;
+    }
 }

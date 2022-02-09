@@ -26,21 +26,38 @@ public class DomainNotificationError
 
     public class ErrorDescription
     {
-        public ErrorDescription(string code, string message, string field) : this(code, message)
+        
+        private ErrorDescription(string code, string message, string field) : this(code, message)
         {
             Field = field;
         }
 
-        public ErrorDescription(string code, string message) : this(message)
+        
+
+        private ErrorDescription(string code, string message) : this(message)
         {
             Code = code;
         }
 
-        public ErrorDescription(string message)
+       
+
+        private ErrorDescription(string message)
         {
             Message = message;
         }
 
+        internal static ErrorDescription Create(string message)
+        {
+            return new ErrorDescription(message);
+        }
+        internal static ErrorDescription Create(string code, string message)
+        {
+            return new ErrorDescription(code, message);
+        }
+        internal static ErrorDescription Create(string code, string message, string field)
+        {
+            return new ErrorDescription(code, message, field);
+        }
         public string Code { get; }
         private string Message { get; }
         public string Field { get; }

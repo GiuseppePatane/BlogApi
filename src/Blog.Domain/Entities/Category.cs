@@ -15,4 +15,14 @@ public class Category:BaseEntity
         return new Category(id, name);
     }
     public  string? Name { get; private set; }
+    
+    public  ICollection<BlogPost> BLogPosts { get; set; }
+
+    public void Update(string newName)
+    {
+       IsInvalidString(newName);
+       ValidateErrors();
+       Name = newName;
+       UpdateDateUtc = DateTime.UtcNow;
+    }
 }
