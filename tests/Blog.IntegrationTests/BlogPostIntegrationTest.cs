@@ -19,8 +19,9 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         await using var context = new BlogDbContext(GenDbContextOptions());
         await PrepareDatabase(context).ConfigureAwait(false);
         var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("categoryId", "musica");
         var repository = new EfRepository(context);
-        await  Assert.ThrowsAsync<DbUpdateException>(()=> repository.AddAsync(BlogPost.Create("test", "il grande test", "sfsdfds","https://cdn.com/image.jpg",author)));
+        await  Assert.ThrowsAsync<DbUpdateException>(()=> repository.AddAsync(BlogPost.Create("test", "il grande test", "sfsdfds","https://cdn.com/image.jpg",author,category)));
     }
     [Fact]
     public async Task Create_New_BlogPost_Should_StoreIt_In_The_Db()
@@ -29,7 +30,9 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         await using var context = new BlogDbContext(GenDbContextOptions());
         await PrepareDatabase(context).ConfigureAwait(false);
         var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("categoryId", "musica");
         context.Authors.Add( author);
+        context.Categories.Add( category);
         await context.SaveChangesAsync();
         //ATTEMPT 
         var repository = new EfRepository(context);
@@ -46,7 +49,7 @@ public class BlogPostIntegrationTest : IntegrationTestBase
                         </body>
                         </html>
                         ";
-        await repository.AddAsync(BlogPost.Create("test", "il grande test", content,"https://cdn.com/image.jpg",author));
+        await repository.AddAsync(BlogPost.Create("test", "il grande test", content,"https://cdn.com/image.jpg",author,category));
         await context.SaveChangesAsync();
         //ASSERT 
         var blogPost = await repository.GetByIdAsync<BlogPost>("test");
@@ -56,7 +59,7 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         blogPost.Content.Should().Be(content);
         blogPost.Image.Should().Be("https://cdn.com/image.jpg");
         blogPost.AuthorId.Should().Be(author.Id);
-        
+        blogPost.CategoryId.Should().Be(category.Id);
         await CheckDatabaseAndRemoveIt(context);
     }
 
@@ -67,8 +70,10 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         await using var context = new BlogDbContext(GenDbContextOptions());
         await PrepareDatabase(context).ConfigureAwait(false);
         var author = Author.Create("test", "grande scrittore");
-        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author));
+        var category = Category.Create("categoryId", "musica");
+        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author,category));
         context.Authors.Add(author);
+        context.Categories.Add(category);
         await context.SaveChangesAsync();
         //ATTEMPT 
         var repository = new EfRepository(context);
@@ -93,9 +98,11 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         await PrepareDatabase(context).ConfigureAwait(false);
         var author = Author.Create("test", "grande scrittore");
         var tag = Tag.Create("newTag", "il grande tag");
+        var category = Category.Create("categoryId", "musica");
         context.Tags.Add(tag);
-        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author));
+        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author,category));
         context.Authors.Add(author);
+        context.Categories.Add(category);
         await context.SaveChangesAsync();
         //ATTEMPT 
         var repository = new EfRepository(context);
@@ -119,7 +126,7 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         var category = Category.Create("newCategory", "music");
         context.Categories.Add(category);
         context.Authors.Add(author);
-        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author));
+        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author,category));
         await context.SaveChangesAsync();
         //ATTEMPT 
         var repository = new EfRepository(context);
@@ -138,12 +145,13 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         await using var context = new BlogDbContext(GenDbContextOptions());
         await PrepareDatabase(context).ConfigureAwait(false);
         var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("categoryId", "musica");
         context.Authors.Add(author);
         await context.SaveChangesAsync();
         //ATTEMPT 
         var repository = new EfRepository(context);
         await Assert.ThrowsAsync<DbUpdateConcurrencyException>(() =>
-            repository.UpdateAsync<BlogPost>(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author)));
+            repository.UpdateAsync<BlogPost>(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author,category)));
 
         //ASSERT 
         await CheckDatabaseAndRemoveIt(context);
@@ -156,8 +164,10 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         await using var context = new BlogDbContext(GenDbContextOptions());
         await PrepareDatabase(context).ConfigureAwait(false);
         var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("categoryId", "musica");
         context.Authors.Add(author);
-        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author));
+        context.Categories.Add(category);
+        context.BlogPosts.Add(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author,category));
         await context.SaveChangesAsync();
         //ATTEMPT 
         var repository = new EfRepository(context);

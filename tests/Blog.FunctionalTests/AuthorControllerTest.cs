@@ -11,7 +11,7 @@ namespace Blog.FunctionalTests;
 
 public class AuthorControllerTest
 {
-    private ITestOutputHelper _testOutputHelper;
+    private readonly ITestOutputHelper _testOutputHelper;
 
     public AuthorControllerTest(ITestOutputHelper testOutputHelper)
     {

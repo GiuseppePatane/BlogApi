@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using Blog.Domain.DTOs;
 using Blog.Domain.Exceptions;

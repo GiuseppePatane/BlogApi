@@ -4,6 +4,17 @@ namespace Blog.Domain.Entities;
 
 public class Category:BaseEntity
 {
+    public static DomainNotificationError NotFoundError
+    {
+        get
+        {
+            DomainNotificationError.ErrorDescription errorDescription =
+                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " category not found");
+            var error = new DomainNotificationError();
+            error.AddError(errorDescription);
+            return error;
+        }
+    }
     public static DomainNotificationError AlreadyExistError
     {
         get

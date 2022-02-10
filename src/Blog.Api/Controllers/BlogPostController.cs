@@ -1,5 +1,5 @@
-using Blog.Api.Filters;
 using Blog.Domain.DTOs;
+using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers;
@@ -7,6 +7,12 @@ namespace Blog.Api.Controllers;
 [ApiController]
 public class BlogPostController:Controller
 {
+    private readonly IBlogPostService _blogPostService;
+
+    public BlogPostController(IBlogPostService blogPostService)
+    {
+        _blogPostService = blogPostService;
+    }
 
     /// <summary>
     /// Create a new blog post 
@@ -15,8 +21,9 @@ public class BlogPostController:Controller
     /// <returns></returns>
     [HttpPost]
     [Route("api/BlogPost")]
-    public IActionResult CreateBlogPost(CreateBlogPostRequest request)
+    public async Task<IActionResult> CreateBlogPost(CreateBlogPostRequest request)
     {
-        return Ok();
+        var response = await _blogPostService.Create(request);
+        return Ok(response);
     }
 }

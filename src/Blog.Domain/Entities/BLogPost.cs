@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Blog.Domain.Errors;
+﻿using Blog.Domain.Errors;
 
 namespace Blog.Domain.Entities;
 
@@ -9,17 +8,29 @@ namespace Blog.Domain.Entities;
 /// </summary>
 public  class BlogPost :BaseEntity
 {
-    private BlogPost(string? id, string? title, string? content,string? image, string? authorId) : base(id, DateTime.UtcNow)
+    public static DomainNotificationError AlreadyExistError
+    {
+        get
+        {
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " blog post already exist");
+            var error = new DomainNotificationError();
+            error.AddError(errorDescription);
+            return error;
+        }
+    }
+    private BlogPost(string? id, string? title, string? content,string? image, string? authorId,string? categoryId) : base(id, DateTime.UtcNow)
     {
         IsInvalidString(id);
         IsInvalidString(title);
         IsInvalidString(content);
         IsInvalidString(image);
         IsInvalidString(authorId);
+        IsInvalidString(categoryId);
         ValidateErrors();
         Title = title;
         Content = content;
         AuthorId = authorId;
+        CategoryId = categoryId;
         Image = image;
         TagXBlogPosts = new List<TagXBlogPost>();
     }
@@ -32,10 +43,11 @@ public  class BlogPost :BaseEntity
     /// <param name="content"></param>
     /// <param name="image"></param>
     /// <param name="author"></param>
+    /// <param name="category"></param>
     /// <returns></returns>
-    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author)
+    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author,Category? category)
     {
-        return new BlogPost(id, title, content, image, author?.Id);
+        return new BlogPost(id, title, content, image, author?.Id,category?.Id);
     }
 
     /// <summary>

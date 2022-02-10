@@ -1,5 +1,5 @@
 using Blog.Domain.DTOs;
-using Blog.Domain.Interfaces;
+using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blog.Api.Controllers;

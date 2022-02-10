@@ -2,6 +2,8 @@
 using Blog.Domain.Entities;
 using Blog.Domain.Exceptions;
 using Blog.Domain.Interfaces;
+using Blog.Domain.Interfaces.Repositories;
+using Blog.Domain.Interfaces.Services;
 
 namespace Blog.Core;
 

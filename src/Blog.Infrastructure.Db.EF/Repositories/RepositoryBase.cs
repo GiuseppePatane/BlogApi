@@ -1,10 +1,12 @@
+using System.Linq.Expressions;
 using Blog.Domain.Entities;
 using Blog.Domain.Interfaces;
+using Blog.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infrastructure.Db.EF.Repositories;
 
-public class EfRepository : IRepository
+public class EfRepository : IGenericRepository
 {
     protected readonly BlogDbContext DbContext;
 
@@ -15,12 +17,17 @@ public class EfRepository : IRepository
 
     public Task<T?> GetByIdAsync<T>(string id) where T : BaseEntity
     {
-        return DbContext.Set<T>().SingleOrDefaultAsync(e => e.Id == id);
+        return DbContext.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
     }
 
     public Task<List<T>> ListAsync<T>() where T : BaseEntity
     {
         return DbContext.Set<T>().ToListAsync();
+    }
+
+    public Task<List<T>> ListAsync<T>(Expression<Func<T, bool>> predicate) where T : BaseEntity
+    {
+        return DbContext.Set<T>().Where(predicate).ToListAsync();
     }
 
 
@@ -46,7 +53,7 @@ public class EfRepository : IRepository
 
     public T? GetById<T>(string id) where T : BaseEntity
     {
-        return DbContext.Set<T>().SingleOrDefault(e => e.Id == id);
+        return DbContext.Set<T>().FirstOrDefault(e => e.Id == id);
     }
     
 }
