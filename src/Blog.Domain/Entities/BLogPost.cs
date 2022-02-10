@@ -8,6 +8,10 @@ namespace Blog.Domain.Entities;
 /// </summary>
 public  class BlogPost :BaseEntity
 {
+    private BlogPost()
+    {
+        
+    }
     public static DomainNotificationError AlreadyExistError
     {
         get
@@ -18,7 +22,7 @@ public  class BlogPost :BaseEntity
             return error;
         }
     }
-    private BlogPost(string? id, string? title, string? content,string? image, string? authorId,string? categoryId) : base(id, DateTime.UtcNow)
+    private BlogPost(string? id, string? title, string? content,string? image, string? authorId,string? categoryId,List<TagXBlogPost>? tagXBlogPosts) : base(id, DateTime.UtcNow)
     {
         IsInvalidString(id);
         IsInvalidString(title);
@@ -26,13 +30,14 @@ public  class BlogPost :BaseEntity
         IsInvalidString(image);
         IsInvalidString(authorId);
         IsInvalidString(categoryId);
+        Fail(tagXBlogPosts == null || !tagXBlogPosts.Any(),DomainNotificationError.ErrorDescription.Create("tagXBlogPosts cannot be nul"));
         ValidateErrors();
         Title = title;
         Content = content;
         AuthorId = authorId;
         CategoryId = categoryId;
         Image = image;
-        TagXBlogPosts = new List<TagXBlogPost>();
+        TagXBlogPosts = tagXBlogPosts;
     }
 
     /// <summary>
@@ -44,10 +49,12 @@ public  class BlogPost :BaseEntity
     /// <param name="image"></param>
     /// <param name="author"></param>
     /// <param name="category"></param>
+    /// <param name="tags"></param>
     /// <returns></returns>
-    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author,Category? category)
+    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author,Category? category,List<Tag> tags)
     {
-        return new BlogPost(id, title, content, image, author?.Id,category?.Id);
+        var tagsXBlog= tags?.Select(x => TagXBlogPost.Create(id, x.Id)).ToList();
+        return new BlogPost(id, title, content, image, author?.Id,category?.Id,tagsXBlog);
     }
 
     /// <summary>

@@ -5,6 +5,10 @@ namespace Blog.Domain.Entities;
 
 public abstract class BaseEntity
 {
+    protected  BaseEntity()
+    {
+        
+    }
     protected BaseEntity(string? id, DateTime creationDateUtc)
     {
         IsInvalidString(id);

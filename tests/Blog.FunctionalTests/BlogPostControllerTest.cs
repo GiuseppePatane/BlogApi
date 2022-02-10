@@ -40,8 +40,10 @@ public class BlogPostControllerTest
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
+        var tag = Tag.Create("test", "test");
         context.Categories.Add(category);
         context.Authors.Add(author);
+        context.Tags.Add(tag);
         await context.SaveChangesAsync();
         var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
         var response =  await  client.PostAsJsonAsync(request.Url, request.Body);

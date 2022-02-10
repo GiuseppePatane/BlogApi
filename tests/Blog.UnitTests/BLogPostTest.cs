@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Blog.Domain.Entities;
 using Blog.Domain.Exceptions;
@@ -15,7 +16,8 @@ public class BLogPostTest
     {
         var author = Author.Create("testId", "pippo");
         var category = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category);
+        var tag = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category,new List<Tag>(){tag});
         blogPost.Should().NotBeNull();
         blogPost.Id.Should().Be("id");
         blogPost.Title.Should().Be("il grande post");
@@ -23,17 +25,19 @@ public class BLogPostTest
         blogPost.Image.Should().Be("image.jpg");
         blogPost.CategoryId.Should().Be(category.Id);
         blogPost.AuthorId.Should().Be(author.Id);
+        blogPost.TagXBlogPosts.Any(x => x.TagId == tag.Id).Should().BeTrue();
         author.BLogPosts.Should().BeEmpty();
     }
     
     [Fact]
     public void Create_New_BlogPost_WithInValidData_Should_Throw_Exceptions()
     {
-        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",Author.Create("teste","test"), null)));
-        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", "<html></html>",null,null,null)));
-        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", null,null,null,null)));
-        Assert.Throws<DomainException>((() => BlogPost.Create("id", null, null,null,null,null)));
-        Assert.Throws<DomainException>((() => BlogPost.Create(null, null, null,null,null,null)));
+        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",Author.Create("teste","test"), Category.Create("test","test"),null )));
+        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",Author.Create("teste","test"), null,null)));
+        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", "<html></html>",null,null,null,null)));
+        Assert.Throws<DomainException>((() => BlogPost.Create("id", "il grande post", null,null,null,null,null)));
+        Assert.Throws<DomainException>((() => BlogPost.Create("id", null, null,null,null,null,null)));
+        Assert.Throws<DomainException>((() => BlogPost.Create(null, null, null,null,null,null,null)));
     }
     
     [Fact]
@@ -41,7 +45,8 @@ public class BLogPostTest
     {
         var author = Author.Create("testId", "pippo");
         var category = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category);
+        var tag = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category,new List<Tag>(){tag});
         blogPost.Should().NotBeNull();
         blogPost.Update("il piccolo post","test","image2final.jpg");
         blogPost.Id.Should().Be("id");
@@ -56,28 +61,31 @@ public class BLogPostTest
     {
         var author = Author.Create("testId", "pippo");
         var category = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category);
+        var tagOld = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category,new List<Tag>(){tagOld});
         var tag = Tag.Create("testtag", "c#");
         blogPost.AssociateWithTag(tag);
         blogPost.TagXBlogPosts.Should().NotBeEmpty();
         blogPost.TagXBlogPosts.Any(x => x.TagId == tag.Id).Should().BeTrue();
     }
     [Fact]
-    public void Associate_NullTag_To_A_BlogPost__Should_Throw_Exceptions()
+    public void Associate_TheSameTag_To_A_BlogPost_Two_Times_Should_Throw_Exceptions() 
     {
         var author = Author.Create("testId", "pippo");
         var category = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category);
+        var tagOld = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category,new List<Tag>(){tagOld});
         var tag = Tag.Create("testtag", "c#");
         blogPost.AssociateWithTag(tag);
         Assert.Throws<DomainException>((() => blogPost.AssociateWithTag(tag)));
     }
     [Fact]
-    public void Associate_TheSameTag_To_A_BlogPost_Two_Times_Should_Throw_Exceptions()
+    public void Associate_NullTag_To_A_BlogPost__Should_Throw_Exceptions()
     {
         var author = Author.Create("testId", "pippo");
         var category = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category);
+        var tagOld = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category,new List<Tag>(){tagOld});
         Assert.Throws<DomainException>((() => blogPost.AssociateWithTag(null)));
     }
     [Fact]
@@ -85,7 +93,8 @@ public class BLogPostTest
     {
         var author = Author.Create("testId", "pippo");
         var categoryOld = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,categoryOld);
+        var tag = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,categoryOld,new List<Tag>(){tag});
         var category = Category.Create("testtag", "tech");
         blogPost.AssociateWithCategory(category);
         blogPost.CategoryId.Should().Be(category.Id);
@@ -95,7 +104,8 @@ public class BLogPostTest
     {
         var author = Author.Create("testId", "pippo");
         var category = Category.Create("categoryId", "musica");
-        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category);
+        var tag = Tag.Create("tag1", "tag1");
+        var blogPost = BlogPost.Create("id", "il grande post", "<html></html>","image.jpg",author,category, new List<Tag>(){tag});
         Assert.Throws<DomainException>((() => blogPost.AssociateWithCategory(null)));
     }
 }

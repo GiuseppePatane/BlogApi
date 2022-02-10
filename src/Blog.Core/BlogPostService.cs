@@ -25,9 +25,9 @@ public class BlogPostService : IBlogPostService
             throw new DomainException(BlogPost.AlreadyExistError); 
         var author= await GetAuthor(request.AuthorId);
         var category = await GetCategory(request.CategoryId);
-       // var tags = await GetTags(request.Tags);
+        var tags = await GetTags(request.Tags);
         var blogPost = BlogPost.Create(_idGenerator.GenerateId(), request.Title, request.Content, request.Image,
-            author,category);
+            author,category,tags);
       await  _repository.AddAsync(blogPost);
       return new CreateResponse(blogPost.Id);
     }
