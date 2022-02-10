@@ -9,7 +9,7 @@ public class Tag:BaseEntity
         get
         {
             DomainNotificationError.ErrorDescription errorDescription =
-                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " Tag not found");
+                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", "tag not found");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;
@@ -19,7 +19,7 @@ public class Tag:BaseEntity
     {
         get
         {
-            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " Tag already Exist");
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", "tag already Exist");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;

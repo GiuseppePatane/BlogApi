@@ -8,19 +8,31 @@ namespace Blog.Domain.Entities;
 /// </summary>
 public  class BlogPost :BaseEntity
 {
-    private BlogPost()
-    {
-        
-    }
-    public static DomainNotificationError AlreadyExistError
+    public static DomainNotificationError NotFoundError
     {
         get
         {
-            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " blog post already exist");
+            DomainNotificationError.ErrorDescription errorDescription =
+                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", "blog post not found");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;
         }
+    }
+    
+    public static DomainNotificationError AlreadyExistError
+    {
+        get
+        {
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", "blog post already exist");
+            var error = new DomainNotificationError();
+            error.AddError(errorDescription);
+            return error;
+        }
+    }
+    private BlogPost()
+    {
+        
     }
     private BlogPost(string? id, string? title, string? content,string? image, string? authorId,string? categoryId,List<TagXBlogPost>? tagXBlogPosts) : base(id, DateTime.UtcNow)
     {
@@ -61,7 +73,7 @@ public  class BlogPost :BaseEntity
     /// Associate a specific <see cref="Tag"/> to the current blog post
     /// </summary>
     /// <param name="tag"></param>
-    public void AssociateWithTag(Tag? tag)
+    public void AssociateTag(Tag? tag)
     {
         Fail(tag==null,
              DomainNotificationError.ErrorDescription.Create("TagNotFound", "Tag not found."));
@@ -73,10 +85,10 @@ public  class BlogPost :BaseEntity
     }
 
     /// <summary>
-    /// Associate a specific <see cref="Category"/> tto the current  blog post 
+    /// Associate a specific <see cref="Category"/> to the current  blog post 
     /// </summary>
     /// <param name="category"></param>
-    public void AssociateWithCategory(Category? category)
+    public void UpdateCategory(Category? category)
     {
         Fail(category==null,
              DomainNotificationError.ErrorDescription.Create("Category not found", "category not  found"));
@@ -96,10 +108,10 @@ public  class BlogPost :BaseEntity
 
     public void Update(string title, string content, string image)
     {
-        bool endited = false;
-        if (!string.IsNullOrWhiteSpace(title))  { Title = title; endited = true;}
-        if (!string.IsNullOrWhiteSpace(content)) {Content = content; endited = true; }
-        if (!string.IsNullOrWhiteSpace(image)){ Image = image; endited = true; }
-        if(endited) UpdateDateUtc=DateTime.UtcNow;
+        bool edited = false;
+        if (!string.IsNullOrWhiteSpace(title))  { Title = title; edited = true;}
+        if (!string.IsNullOrWhiteSpace(content)) {Content = content; edited = true; }
+        if (!string.IsNullOrWhiteSpace(image)){ Image = image; edited = true; }
+        if(edited) UpdateDateUtc=DateTime.UtcNow;
     }
 }

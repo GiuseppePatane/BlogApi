@@ -20,7 +20,7 @@ public class BlogPostService : IBlogPostService
 
     public async Task<CreateResponse> Create(CreateBlogPostRequest request)
     {
-        var exist = await _repository.GetByTitle(request.Title);
+        var exist = await _repository.GetByTitleAsync(request.Title);
         if (exist)
             throw new DomainException(BlogPost.AlreadyExistError); 
         var author= await GetAuthor(request.AuthorId);
@@ -31,6 +31,34 @@ public class BlogPostService : IBlogPostService
       await  _repository.AddAsync(blogPost);
       return new CreateResponse(blogPost.Id);
     }
+
+    public async Task Update(string id, UpdateBlogPostRequest request)
+    {
+        var blogPost = await _repository.GetByIdAsync<BlogPost>(id);
+        if (blogPost == null) throw new DomainException(BlogPost.NotFoundError);
+        blogPost.Update(request.Title,request.Content,request.Image);
+        await  _repository.UpdateAsync(blogPost);
+    }
+
+    public async Task UpdateCategory(string id, string categoryId)
+    {
+        var blogPost = await _repository.GetByIdAsync<BlogPost>(id);
+        if (blogPost == null) throw new DomainException(BlogPost.NotFoundError);
+        var category = await _repository.GetByIdAsync<Category>(categoryId);
+        if (category == null) throw new DomainException(Category.NotFoundError);
+        blogPost.UpdateCategory(category);
+        await  _repository.UpdateAsync(blogPost);
+    }
+    public async Task AssociateTag(string id, string tagId)
+    {
+        var blogPost = await _repository.GetWithTagsAsync(id);
+        if (blogPost == null) throw new DomainException(BlogPost.NotFoundError);
+        var tag = await _repository.GetByIdAsync<Tag>(tagId);
+        if (tag == null) throw new DomainException(Tag.NotFoundError);
+        blogPost.AssociateTag(tag);
+        await  _repository.UpdateAsync(blogPost);
+    }
+
 
     private async Task<List<Tag>> GetTags(List<string> requestTags)
     {
