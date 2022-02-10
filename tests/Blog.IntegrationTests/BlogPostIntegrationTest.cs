@@ -118,7 +118,7 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         //ATTEMPT 
         var repository = new EfRepository(context);
         var blogPost = await repository.GetByIdAsync<BlogPost>("test");
-        blogPost.AssociateWithTag(tag2);
+        blogPost.AssociateTag(tag2);
         await repository.UpdateAsync<BlogPost>(blogPost);
         //ASSERT 
         blogPost = context.BlogPosts.Include(x => x.TagXBlogPosts).FirstOrDefault(x => x.Id == "test");
@@ -144,7 +144,7 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         //ATTEMPT 
         var repository = new EfRepository(context);
         var blogPost = await repository.GetByIdAsync<BlogPost>("test");
-        blogPost.AssociateWithCategory(category);
+        blogPost.UpdateCategory(category);
         await repository.UpdateAsync<BlogPost>(blogPost);
         //ASSERT 
         blogPost = await repository.GetByIdAsync<BlogPost>("test");

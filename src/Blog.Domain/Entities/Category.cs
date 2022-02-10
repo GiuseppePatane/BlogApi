@@ -9,7 +9,7 @@ public class Category:BaseEntity
         get
         {
             DomainNotificationError.ErrorDescription errorDescription =
-                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " category not found");
+                DomainNotificationError.ErrorDescription.Create("DomainErrorKey", "category not found");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;
@@ -19,7 +19,7 @@ public class Category:BaseEntity
     {
         get
         {
-            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", " category already exist");
+            DomainNotificationError.ErrorDescription errorDescription = DomainNotificationError.ErrorDescription.Create("DomainErrorKey", "category already exist");
             var error = new DomainNotificationError();
             error.AddError(errorDescription);
             return error;
