@@ -1,20 +1,19 @@
 namespace Blog.Domain.DTOs;
 
-public record  CreateResponse(string? Id);
+public record CreateResponse(string? Id);
 
-
-
-public class Response 
+public class Response
 {
     public ErrorResponse Error { get; set; }
 }
 
-public class ErrorResponse 
+public class ErrorResponse
 {
     public ErrorResponse()
     {
         Errors = new List<ErrorElement>();
     }
+
     public List<ErrorElement> Errors { get; set; }
 }
 

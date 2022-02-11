@@ -9,8 +9,8 @@ namespace Blog.Core;
 
 public class AuthorService : IAuthorService
 {
-    private readonly IAuthorRepository _repository;
     private readonly IIdGenerator _idGenerator;
+    private readonly IAuthorRepository _repository;
 
     public AuthorService(IAuthorRepository repository, IIdGenerator idGenerator)
     {
@@ -23,7 +23,7 @@ public class AuthorService : IAuthorService
         var exist = await _repository.GetByNameAsync(request.Name);
         if (exist)
             throw new DomainException(Author.AlreadyExistError);
-        
+
         var author = Author.Create(_idGenerator.GenerateId(), request.Name);
         await _repository.AddAsync(author);
         return new CreateResponse(author?.Id);

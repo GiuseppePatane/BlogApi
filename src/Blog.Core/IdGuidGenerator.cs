@@ -4,5 +4,8 @@ namespace Blog.Core;
 
 public class IdGuidGenerator : IIdGenerator
 {
-    public string GenerateId() => Guid.NewGuid().ToString();
+    public string GenerateId()
+    {
+        return Guid.NewGuid().ToString();
+    }
 }

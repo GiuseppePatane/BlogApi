@@ -9,7 +9,6 @@ namespace Blog.Api.Controllers;
 [ApiController]
 public class CategoryController : Controller
 {
-    
     private readonly ICategoryService _categoryService;
 
     public CategoryController(ICategoryService categoryService)
@@ -18,7 +17,7 @@ public class CategoryController : Controller
     }
 
     /// <summary>
-    /// Create a new author 
+    ///     Create a new author
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

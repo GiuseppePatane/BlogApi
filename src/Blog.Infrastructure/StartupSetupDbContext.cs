@@ -10,9 +10,7 @@ public static class StartupSetupDbContext
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         services.AddDbContext<BlogDbContext>(options =>
-            options.
-                UseNpgsql(connectionString)
+            options.UseNpgsql(connectionString)
         );
     }
 }
-

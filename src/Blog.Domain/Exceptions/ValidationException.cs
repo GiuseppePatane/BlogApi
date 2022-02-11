@@ -8,5 +8,6 @@ public class ValidationException : Exception
     {
         Response = response ?? throw new ArgumentNullException(nameof(response));
     }
-    public Response Response { get; private set; }
+
+    public Response Response { get; }
 }

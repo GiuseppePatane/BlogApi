@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.Api.Controllers;
 
 [ApiController]
-public class BlogPostController:Controller
+public class BlogPostController : Controller
 {
     private readonly IBlogPostService _blogPostService;
 
@@ -17,7 +17,7 @@ public class BlogPostController:Controller
     }
 
     /// <summary>
-    /// Create a new blog post 
+    ///     Create a new blog post
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -31,7 +31,7 @@ public class BlogPostController:Controller
     }
 
     /// <summary>
-    /// update blog post  information
+    ///     update blog post  information
     /// </summary>
     /// <param name="id"> blog post id </param>
     /// <param name="request"></param>
@@ -39,14 +39,14 @@ public class BlogPostController:Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> UpdateBlogPost(string id,UpdateBlogPostRequest request)
+    public async Task<IActionResult> UpdateBlogPost(string id, UpdateBlogPostRequest request)
     {
-         await _blogPostService.Update(id,request);
+        await _blogPostService.Update(id, request);
         return Ok(new ErrorResponse());
     }
-    
+
     /// <summary>
-    /// Update blog Post category
+    ///     Update blog Post category
     /// </summary>
     /// <param name="id"> blog post id </param>
     /// <param name="request"></param>
@@ -54,14 +54,14 @@ public class BlogPostController:Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}/Category/{categoryId}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> UpdateCategory(string id,string categoryId)
+    public async Task<IActionResult> UpdateCategory(string id, string categoryId)
     {
-        await _blogPostService.UpdateCategory(id,categoryId);
+        await _blogPostService.UpdateCategory(id, categoryId);
         return Ok(new ErrorResponse());
     }
-    
+
     /// <summary>
-    /// Update blog Post category
+    ///     Update blog Post category
     /// </summary>
     /// <param name="id"> blog post id </param>
     /// <param name="request"></param>
@@ -69,9 +69,9 @@ public class BlogPostController:Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}/Tags/{tagId}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> AddNewTag(string id,string tagId)
+    public async Task<IActionResult> AddNewTag(string id, string tagId)
     {
-        await _blogPostService.AssociateTag(id,tagId);
+        await _blogPostService.AssociateTag(id, tagId);
         return Ok(new ErrorResponse());
     }
 }

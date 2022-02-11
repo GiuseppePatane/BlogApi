@@ -29,14 +29,14 @@ public class ValidationFilter : TypeFilterAttribute
                 {
                     var modelStateEntry = context.ModelState[key];
                     if (modelStateEntry != null)
-                    {
                         foreach (var value in modelStateEntry.Errors)
                         {
-                            var validationErrorResponse = new ErrorElement() { Field = key,Message = value.ErrorMessage,Code = "ValidationErrorKey"};
+                            var validationErrorResponse = new ErrorElement
+                                { Field = key, Message = value.ErrorMessage, Code = "ValidationErrorKey" };
                             response.Error.Errors.Add(validationErrorResponse);
                         }
-                    }
                 }
+
                 throw new ValidationException(response);
             }
         }

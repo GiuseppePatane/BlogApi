@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentAssertions" Version="6.3.0" />
-        <PackageReference Include="EfCore.TestSupport" Version="5.2.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
-        <PackageReference Include="xunit" Version="2.4.1" />
+        <PackageReference Include="FluentAssertions" Version="6.3.0"/>
+        <PackageReference Include="EfCore.TestSupport" Version="5.2.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0"/>
+        <PackageReference Include="xunit" Version="2.4.1"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -24,16 +24,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Blog.Api\Blog.Api.csproj" />
-      <ProjectReference Include="..\..\src\Blog.Infrastructure.Db.EF\Blog.Infrastructure.Db.EF.csproj" />
+        <ProjectReference Include="..\..\src\Blog.Api\Blog.Api.csproj"/>
+        <ProjectReference Include="..\..\src\Blog.Infrastructure.Db.EF\Blog.Infrastructure.Db.EF.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="appsettings.json">
-        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      </Content>
+        <Content Include="appsettings.json">
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,3 @@
-using Blog.Domain.Interfaces;
 using Blog.Domain.Interfaces.Repositories;
 using Blog.Infrastructure.Db.EF.Repositories;
 using Microsoft.Extensions.DependencyInjection;

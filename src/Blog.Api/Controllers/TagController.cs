@@ -9,7 +9,6 @@ namespace Blog.Api.Controllers;
 [ApiController]
 public class TagController : Controller
 {
-    
     private readonly ITagService _tagService;
 
     public TagController(ITagService tagService)
@@ -18,7 +17,7 @@ public class TagController : Controller
     }
 
     /// <summary>
-    /// Create a new author 
+    ///     Create a new author
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

@@ -4,5 +4,4 @@ namespace Blog.Api.Auth;
 
 public class XUserAuthenticationOptions : AuthenticationSchemeOptions
 {
-   
 }

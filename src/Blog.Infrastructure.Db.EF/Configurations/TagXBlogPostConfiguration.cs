@@ -8,17 +8,16 @@ public class TagXBlogPostConfiguration : IEntityTypeConfiguration<TagXBlogPost>
 {
     public void Configure(EntityTypeBuilder<TagXBlogPost> builder)
     {
-        builder.HasKey(post =>  new { post.TagId, post.BlogPostId});
+        builder.HasKey(post => new { post.TagId, post.BlogPostId });
 
         builder
             .HasOne(sc => sc.BLogPost)
             .WithMany(s => s.TagXBlogPosts)
             .HasForeignKey(sc => sc.BlogPostId);
-        
+
         builder
             .HasOne(sc => sc.Tag)
             .WithMany(s => s.TagXBlogPosts)
             .HasForeignKey(sc => sc.TagId);
-
     }
 }

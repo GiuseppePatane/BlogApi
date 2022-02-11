@@ -4,18 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blog.Infrastructure.Db.EF;
 
-public class BlogDbContext :DbContext 
+public class BlogDbContext : DbContext
 {
-     public BlogDbContext(DbContextOptions<BlogDbContext> options)
+    public BlogDbContext(DbContextOptions<BlogDbContext> options)
         : base(options)
     {
     }
-     public  DbSet<Author> Authors { get; set; }
-     public  DbSet<Category>Categories { get; set; }
-     public  DbSet<Tag> Tags { get; set; }
-     public  DbSet<BlogPost>BlogPosts { get; set; }
 
-     protected override void OnModelCreating(ModelBuilder modelBuilder)
+    public DbSet<Author> Authors { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<BlogPost> BlogPosts { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new AuthorConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());

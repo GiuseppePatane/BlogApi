@@ -1,6 +1,5 @@
 using System.Linq.Expressions;
 using Blog.Domain.Entities;
-using Blog.Domain.Interfaces;
 using Blog.Domain.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,5 +54,4 @@ public class EfRepository : IGenericRepository
     {
         return DbContext.Set<T>().FirstOrDefault(e => e.Id == id);
     }
-    
 }

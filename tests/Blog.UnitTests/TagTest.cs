@@ -11,8 +11,8 @@ public class TagTest
     public void Create_New_Tag_WithValidDate_Should_NotThrow_Exceptions()
     {
         //SETUP
-        string? id = "testId";
-        string? name = "c#";
+        var id = "testId";
+        var name = "c#";
         //ATTEMPT
         var category = Tag.Create(id, name);
         //VERIFY
@@ -20,11 +20,12 @@ public class TagTest
         category.Id.Should().Be(id);
         category.Name.Should().Be(name);
     }
+
     [Fact]
     public void Create_New_Category_WithInvalidData_Should_Throw_Exceptions()
     {
-        Assert.Throws<DomainException>((() => Tag.Create(null, null)));
-        Assert.Throws<DomainException>((() => Tag.Create("sdfdsfdsf", null)));
-        Assert.Throws<DomainException>((() => Tag.Create(null, "sdfdsfdfdsf")));
+        Assert.Throws<DomainException>(() => Tag.Create(null, null));
+        Assert.Throws<DomainException>(() => Tag.Create("sdfdsfdsf", null));
+        Assert.Throws<DomainException>(() => Tag.Create(null, "sdfdsfdfdsf"));
     }
 }

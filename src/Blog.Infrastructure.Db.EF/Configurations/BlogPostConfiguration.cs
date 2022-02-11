@@ -16,6 +16,5 @@ public class BlogPostConfiguration : IEntityTypeConfiguration<BlogPost>
         builder.HasOne(x => x.Author)
             .WithMany(x => x.BLogPosts)
             .HasForeignKey(x => x.AuthorId);
-        
     }
 }

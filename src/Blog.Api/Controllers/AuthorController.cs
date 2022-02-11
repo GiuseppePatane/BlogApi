@@ -9,7 +9,6 @@ namespace Blog.Api.Controllers;
 [ApiController]
 public class AuthorController : Controller
 {
-    
     private readonly IAuthorService _authorService;
 
     public AuthorController(IAuthorService authorService)
@@ -18,7 +17,7 @@ public class AuthorController : Controller
     }
 
     /// <summary>
-    /// Create a new author 
+    ///     Create a new author
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>

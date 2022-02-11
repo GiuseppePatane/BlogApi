@@ -5,8 +5,8 @@ namespace Blog.FunctionalTests.LoggerUtil;
 
 internal sealed class XUnitLoggerProvider : ILoggerProvider
 {
-    private readonly ITestOutputHelper _testOutputHelper;
     private readonly LoggerExternalScopeProvider _scopeProvider = new();
+    private readonly ITestOutputHelper _testOutputHelper;
 
     public XUnitLoggerProvider(ITestOutputHelper testOutputHelper)
     {

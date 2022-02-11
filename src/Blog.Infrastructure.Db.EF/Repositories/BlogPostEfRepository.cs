@@ -17,6 +17,6 @@ public class BlogPostEfRepository : EfRepository, IBlogPostRepository
 
     public Task<BlogPost?> GetWithTagsAsync(string id)
     {
-        return DbContext.BlogPosts.Include(x=>x.TagXBlogPosts).FirstOrDefaultAsync(x => x.Id == id);
+        return DbContext.BlogPosts.Include(x => x.TagXBlogPosts).FirstOrDefaultAsync(x => x.Id == id);
     }
 }
