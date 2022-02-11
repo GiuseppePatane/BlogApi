@@ -1,4 +1,3 @@
-using Blog.Domain.Interfaces;
 using Blog.Domain.Interfaces.Repositories;
 using Blog.Infrastructure.Db.EF.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,5 +13,6 @@ public static class StartupSetupRepository
         services.AddTransient<ICategoryRepository, CategoryEfRepository>();
         services.AddTransient<ITagRepository, TagEfRepository>();
         services.AddTransient<IBlogPostRepository, BlogPostEfRepository>();
+        services.AddTransient<IBlogPostReadOnlyRepository, BlogPostReadOnlyEfRepository>();
     }
 }

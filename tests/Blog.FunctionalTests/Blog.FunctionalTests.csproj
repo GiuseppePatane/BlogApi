@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Verify.Xunit" Version="14.14.1" />
         <PackageReference Include="FluentAssertions" Version="6.3.0" />
         <PackageReference Include="EfCore.TestSupport" Version="5.2.2" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.2" />

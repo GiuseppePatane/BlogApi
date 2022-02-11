@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Blog.Api.Controllers;
 
 [ApiController]
-public class BlogPostController:Controller
+public class BlogPostController : Controller
 {
     private readonly IBlogPostService _blogPostService;
 
@@ -39,12 +39,12 @@ public class BlogPostController:Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> UpdateBlogPost(string id,UpdateBlogPostRequest request)
+    public async Task<IActionResult> UpdateBlogPost(string id, UpdateBlogPostRequest request)
     {
-         await _blogPostService.Update(id,request);
+        await _blogPostService.Update(id, request);
         return Ok(new ErrorResponse());
     }
-    
+
     /// <summary>
     /// Update blog Post category
     /// </summary>
@@ -54,12 +54,12 @@ public class BlogPostController:Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}/Category/{categoryId}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> UpdateCategory(string id,string categoryId)
+    public async Task<IActionResult> UpdateCategory(string id, string categoryId)
     {
-        await _blogPostService.UpdateCategory(id,categoryId);
+        await _blogPostService.UpdateCategory(id, categoryId);
         return Ok(new ErrorResponse());
     }
-    
+
     /// <summary>
     /// Update blog Post category
     /// </summary>
@@ -69,19 +69,31 @@ public class BlogPostController:Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}/Tags/{tagId}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> AddNewTag(string id,string tagId)
+    public async Task<IActionResult> AddNewTag(string id, string tagId)
     {
-        await _blogPostService.AssociateTag(id,tagId);
+        await _blogPostService.AssociateTag(id, tagId);
         return Ok(new ErrorResponse());
     }
-    
+
 
     [HttpDelete]
     [Route("api/BlogPost/{id}")]
     [XUserAuthorizationFilter(AuthConst.AdminRole)]
-    public async Task<IActionResult> DeleteBlogPost(string id,string tagId)
+    public async Task<IActionResult> DeleteBlogPost(string id, string tagId)
     {
         await _blogPostService.DeleteBlogPost(id);
         return Ok(new ErrorResponse());
+    }
+
+    [HttpGet]
+    [Route("api/BlogPosts")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetTag(int page, int perPage, string title, string category,
+        [FromQuery] List<string> tags)
+    {
+        if (page == 0) page = 1;
+        if (perPage == 0) perPage = 10;
+        var result = await _blogPostService.GetTags(page, perPage, title, category, tags);
+        return Ok(result);
     }
 }

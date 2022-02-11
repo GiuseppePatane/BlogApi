@@ -10,11 +10,14 @@ using Blog.Domain.DTOs;
 using Blog.Domain.Entities;
 using FluentAssertions;
 using Newtonsoft.Json;
+using VerifyTests;
+using VerifyXunit;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Blog.FunctionalTests;
 
+[UsesVerify]
 public class BlogPostControllerTest
 {
     private readonly ITestOutputHelper _testOutputHelper;
@@ -567,6 +570,53 @@ public class BlogPostControllerTest
         error.Should().NotBeNull();
         error.Code.Should().Be("DomainExceptionKey");
         error.Message.Should().Be("tag not found");
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
+    
+    [Fact]
+    public async Task GetTags_WithValidQueryStringParameters_ShouldReturnTheCorrectElements()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPosts?category=music&tags=test",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("Category", "music");
+        var tag = Tag.Create("test", "test");
+        var blogPostList = new List<BlogPost>();
+        var content = @"<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ";
+        for (int i = 1; i <= 30; i++)
+        {
+            blogPostList.Add(BlogPost.Create($"{i}", $"test{i}",content,"https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",author,category,new List<Tag>(){tag}));
+        }
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        context.BlogPosts.AddRange(blogPostList);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var model = await response.Content.ReadFromJsonAsync<BlogPostPaginationResponse>();
+        await Verifier.Verify(model);
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Blog.Infrastructure.Db.EF;
+﻿using Blog.Domain.Interfaces;
+using Blog.Infrastructure.Db.EF;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
