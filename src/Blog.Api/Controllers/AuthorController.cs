@@ -1,3 +1,5 @@
+using Blog.Api.Auth;
+using Blog.Api.Filters;
 using Blog.Domain.DTOs;
 using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,7 @@ public class AuthorController : Controller
     /// <returns></returns>
     [HttpPost]
     [Route("api/Author")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
     public async Task<IActionResult> CreateAuthor(CreateAuthorRequest request)
     {
         var response = await _authorService.Create(request);

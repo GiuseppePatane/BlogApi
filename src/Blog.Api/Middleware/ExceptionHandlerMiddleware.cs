@@ -39,7 +39,7 @@ public class ExceptionHandlerMiddleware
                 context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 400;
                 response.Error.Errors.Add(new ErrorElement {Code = "DomainExceptionKey",Message = domainException.DomainError.ErrorMessage()});
-                _logger.LogError(domainException, $"Error from {GetType().Namespace}. Status code: { context.Response.StatusCode}",context.Response.StatusCode,context.Request?.Headers["X-Correlation-ID"]);
+               // _logger.LogError(domainException, $"Error from {GetType().Namespace}. Status code: { context.Response.StatusCode}",context.Response.StatusCode,context.Request?.Headers["X-Correlation-ID"]);
                 return context.Response.WriteAsync(JsonSerializer.Serialize(response.Error));
             case ArgumentException argumentException:
                 context.Response.ContentType = "application/json";

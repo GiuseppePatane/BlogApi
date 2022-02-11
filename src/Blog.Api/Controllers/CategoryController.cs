@@ -1,3 +1,5 @@
+using Blog.Api.Auth;
+using Blog.Api.Filters;
 using Blog.Domain.DTOs;
 using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,7 @@ public class CategoryController : Controller
     /// <returns></returns>
     [HttpPost]
     [Route("api/Category")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
     public async Task<IActionResult> CreateCategory(CreateCategoryRequest request)
     {
         var response = await _categoryService.Create(request);

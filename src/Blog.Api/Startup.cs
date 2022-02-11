@@ -1,9 +1,11 @@
+using Blog.Api.Auth;
 using Blog.Api.Filters;
 using Blog.Api.Middleware;
 using Blog.Infrastructure;
 using Blog.Infrastructure.Validator.FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 public class Startup
 {
@@ -21,7 +23,10 @@ public class Startup
         services.AddDbContextWithPostgresql(connectionString);
         services.AddServices();
         services.AddRepositories();
-// Add services to the container.
+
+        services.AddAuthentication("XUser")
+           .AddScheme<XUserAuthenticationOptions, XUserAuthenticationHandler>("XUser", null);
+        
         services.Configure<ApiBehaviorOptions>(options =>
         {
             options.SuppressModelStateInvalidFilter = true;
@@ -48,7 +53,7 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+       // app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>

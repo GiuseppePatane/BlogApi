@@ -21,8 +21,8 @@ public class AuthorIntegrationTest :IntegrationTestBase
         var repository = new EfRepository(context);
         await repository.AddAsync(Author.Create("test", "pippo"));
         await context.SaveChangesAsync();
-        //ASSERT 
         var author = await repository.GetByIdAsync<Author>("test");
+        //VERIFY
         author.Should().NotBeNull();
         author.Name.Should().Be("pippo");
         await CheckDatabaseAndRemoveIt(context);
@@ -40,8 +40,8 @@ public class AuthorIntegrationTest :IntegrationTestBase
         var author = await repository.GetByIdAsync<Author>("test");
         author.Update("pluto");
         await repository.UpdateAsync<Author>(author);
-        //ASSERT 
         author = await repository.GetByIdAsync<Author>("test");
+        //VERIFY
         author.Should().NotBeNull();
         author.Name.Should().Be("pluto");
         await CheckDatabaseAndRemoveIt(context);
@@ -52,11 +52,9 @@ public class AuthorIntegrationTest :IntegrationTestBase
         // SETUP
         await using var context = new BlogDbContext(GenDbContextOptions());
         await  PrepareDatabase(context).ConfigureAwait(false);
-        //ATTEMPT 
+        //VERIFY
         var repository = new EfRepository(context);
         await Assert.ThrowsAsync<DbUpdateConcurrencyException>(() => repository.UpdateAsync<Author>(Author.Create("test", "pippo")));
-     
-        //ASSERT 
         await CheckDatabaseAndRemoveIt(context);
     }
     [Fact]
@@ -70,9 +68,8 @@ public class AuthorIntegrationTest :IntegrationTestBase
         //ATTEMPT 
         var repository = new EfRepository(context);
         var author = await repository.GetByIdAsync<Author>("test");
-        
         await repository.DeleteAsync<Author>(author);
-        //ASSERT 
+        //VERIFY
         author = await repository.GetByIdAsync<Author>("test");
         author.Should().BeNull();
         await CheckDatabaseAndRemoveIt(context);

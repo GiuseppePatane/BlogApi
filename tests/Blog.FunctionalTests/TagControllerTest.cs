@@ -21,6 +21,7 @@ public class TagControllerTest
     [Fact]
     public async Task CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId()
     {
+        //SETUP
         var request = new
         {
             Url = "/api/Tag",
@@ -33,7 +34,10 @@ public class TagControllerTest
             nameof(this.CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
         var response = await client.PostAsJsonAsync(request.Url, request.Body);
+        //VERIFY
         response.IsSuccessStatusCode.Should().BeTrue();
         var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
         model.Should().NotBeNull();
@@ -44,6 +48,7 @@ public class TagControllerTest
     [Fact]
     public async Task CreateNewTag_TwoTimes_WithValidRequest_ShouldReturnTheCreatedId()
     {
+        //SETUP
         var request = new
         {
             Url = "/api/Tag",
@@ -56,8 +61,10 @@ public class TagControllerTest
             nameof(this.CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
         var response = await client.PostAsJsonAsync(request.Url, request.Body);
-
+        //VERIFY
         response.IsSuccessStatusCode.Should().BeTrue();
         var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
         model.Should().NotBeNull();

@@ -1,3 +1,5 @@
+using Blog.Api.Auth;
+using Blog.Api.Filters;
 using Blog.Domain.DTOs;
 using Blog.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +23,7 @@ public class BlogPostController:Controller
     /// <returns></returns>
     [HttpPost]
     [Route("api/BlogPost")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
     public async Task<IActionResult> CreateBlogPost(CreateBlogPostRequest request)
     {
         var response = await _blogPostService.Create(request);
@@ -35,6 +38,7 @@ public class BlogPostController:Controller
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
     public async Task<IActionResult> UpdateBlogPost(string id,UpdateBlogPostRequest request)
     {
          await _blogPostService.Update(id,request);
@@ -49,6 +53,7 @@ public class BlogPostController:Controller
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}/Category/{categoryId}")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
     public async Task<IActionResult> UpdateCategory(string id,string categoryId)
     {
         await _blogPostService.UpdateCategory(id,categoryId);
@@ -63,6 +68,7 @@ public class BlogPostController:Controller
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}/Tags/{tagId}")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
     public async Task<IActionResult> AddNewTag(string id,string tagId)
     {
         await _blogPostService.AssociateTag(id,tagId);
