@@ -37,4 +37,19 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="VerifiedResults\BlogPostControllerTest.GetBlogPost_WithValidQueryStringParameters_ShouldReturnTheCorrectElements.verified.txt">
+        <ParentFile>BlogPostControllerTest</ParentFile>
+      </None>
+      <None Update="VerifiedResults\BlogPostControllerTest.GetBlogPosts_WithMultipleTagQueryStringParameters_ShouldReturnTheCorrectElements.verified.txt">
+        <ParentFile>BlogPostControllerTest</ParentFile>
+      </None>
+      <None Update="VerifiedResults\BlogPostControllerTest.GetTags_WithMultipleTagQueryStringParameters_ShouldReturnTheCorrectElements.received.txt">
+        <ParentFile>BlogPostControllerTest</ParentFile>
+      </None>
+      <None Update="VerifiedResults\BlogPostControllerTest.GetTags_WithMultipleTagQueryStringParameters_ShouldReturnTheCorrectElements.verified.txt">
+        <ParentFile>BlogPostControllerTest</ParentFile>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,6 @@
-CreateHostBuilder(args).Build().Run();
+using Blog.Api.Extensions;
+
+CreateHostBuilder(args).Build().SeedData(args).Run();
 
 
 static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -7,3 +9,6 @@ static IHostBuilder CreateHostBuilder(string[] args) =>
         {
             webBuilder.UseStartup<Startup>();
         });
+        
+
+        

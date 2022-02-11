@@ -28,4 +28,9 @@ public class AuthorService : IAuthorService
         await _repository.AddAsync(author);
         return new CreateResponse(author?.Id);
     }
+
+    public Task<AuthorPaginationResponse?> GetAuthors(int page, int perPage, string name)
+    {
+        return _repository.GetAuthorsPaginate(page, perPage, name);
+    }
 }

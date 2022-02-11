@@ -30,4 +30,15 @@ public class AuthorController : Controller
         var response = await _authorService.Create(request);
         return Ok(response);
     }
+    
+    [HttpGet]
+    [Route("api/Authors")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetTag(int page, int perPage, string name)
+    {
+        if (page == 0) page = 1;
+        if (perPage == 0) perPage = 10;
+        var result = await _authorService.GetAuthors(page, perPage, name);
+        return Ok(result);
+    }
 }

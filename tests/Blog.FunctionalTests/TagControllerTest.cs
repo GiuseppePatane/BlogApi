@@ -1,14 +1,19 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Blog.Domain.DTOs;
+using Blog.Domain.Entities;
 using FluentAssertions;
+using VerifyTests;
+using VerifyXunit;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Blog.FunctionalTests;
 
+[UsesVerify]
 public class TagControllerTest
 {
     private ITestOutputHelper _testOutputHelper;
@@ -79,6 +84,52 @@ public class TagControllerTest
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
 
-
+    [Fact]
+    public async Task GetTags_WithValidQueryStringParameters_ShouldReturnTheCorrectElements()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/Tags?Name=test",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.GetTags_WithValidQueryStringParameters_ShouldReturnTheCorrectElements),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        List<Tag> tags = new List<Tag>();
+        for (int i = 1; i <= 30; i++)
+        {
+            tags.Add(Tag.Create($"{i}", $"test{i}"));
+        }
+        context.Tags.AddRange(tags);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var model = await response.Content.ReadFromJsonAsync<AuthorPaginationResponse>();
+         
+        await Verifier.Verify(model,TestClient.GetVerifySettings());
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
+    
+    [Fact]
+    public async Task GetTags_WithNotExistingName_ShouldReturnNoContent()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/Categories?name=dsfdsfdsfsdf",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.GetTags_WithNotExistingName_ShouldReturnNoContent),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
 
 }
