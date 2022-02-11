@@ -34,7 +34,7 @@ public  class BlogPost :BaseEntity
     {
         
     }
-    private BlogPost(string? id, string? title, string? content,string? image, string? authorId,string? categoryId,List<TagXBlogPost>? tagXBlogPosts) : base(id, DateTime.UtcNow)
+    private BlogPost(string? id, string? title, string? content,string? image, string? authorId,string? categoryId,List<TagXBlogPost> tagXBlogPosts) : base(id, DateTime.UtcNow)
     {
         IsInvalidString(id);
         IsInvalidString(title);
@@ -63,7 +63,7 @@ public  class BlogPost :BaseEntity
     /// <param name="category"></param>
     /// <param name="tags"></param>
     /// <returns></returns>
-    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author,Category? category,List<Tag> tags)
+    public static BlogPost Create(string? id, string? title, string? content, string? image, Author? author,Category? category,List<Tag>? tags)
     {
         var tagsXBlog= tags?.Select(x => TagXBlogPost.Create(id, x.Id)).ToList();
         return new BlogPost(id, title, content, image, author?.Id,category?.Id,tagsXBlog);

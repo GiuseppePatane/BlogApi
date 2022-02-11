@@ -26,7 +26,7 @@ public class BlogPostService : IBlogPostService
         var author= await GetAuthor(request.AuthorId);
         var category = await GetCategory(request.CategoryId);
         var tags = await GetTags(request.Tags);
-        var blogPost = BlogPost.Create(_idGenerator.GenerateId(), request.Title, request.Content, request.Image,
+        var blogPost = BlogPost.Create(_idGenerator.GenerateId(), request.Title, request.Content, request.ImageUrl,
             author,category,tags);
       await  _repository.AddAsync(blogPost).ConfigureAwait(false);
       return new CreateResponse(blogPost.Id);
@@ -35,7 +35,7 @@ public class BlogPostService : IBlogPostService
     public async Task Update(string id, UpdateBlogPostRequest request)
     {
         var blogPost = await GetBlogPost(id);
-        blogPost.Update(request.Title,request.Content,request.Image);
+        blogPost.Update(request.Title,request.Content,request.ImageUrl);
         await  _repository.UpdateAsync(blogPost).ConfigureAwait(false);
     }
 
@@ -72,7 +72,7 @@ public class BlogPostService : IBlogPostService
     }
 
 
-    private async Task<List<Tag>> GetTags(List<string> requestTags)
+    private async Task<List<Tag>?> GetTags(List<string> requestTags)
     {
         var tags =await _repository.ListAsync<Tag>(x => requestTags.Contains(x.Id));
         if (tags == null || !tags.Any())

@@ -3,7 +3,7 @@ using Blog.Domain.Exceptions;
 using FluentAssertions;
 using Xunit;
 
-namespace Blog.UnitTests;
+namespace Blog.UnitTests.Entities;
 
 public class TagTest
 {
