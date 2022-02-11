@@ -74,4 +74,14 @@ public class BlogPostController:Controller
         await _blogPostService.AssociateTag(id,tagId);
         return Ok(new ErrorResponse());
     }
+    
+
+    [HttpDelete]
+    [Route("api/BlogPost/{id}")]
+    [XUserAuthorizationFilter(AuthConst.AdminRole)]
+    public async Task<IActionResult> DeleteBlogPost(string id,string tagId)
+    {
+        await _blogPostService.DeleteBlogPost(id);
+        return Ok(new ErrorResponse());
+    }
 }

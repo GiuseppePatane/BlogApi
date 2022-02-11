@@ -28,27 +28,33 @@ public class BlogPostService : IBlogPostService
         var tags = await GetTags(request.Tags);
         var blogPost = BlogPost.Create(_idGenerator.GenerateId(), request.Title, request.Content, request.Image,
             author,category,tags);
-      await  _repository.AddAsync(blogPost);
+      await  _repository.AddAsync(blogPost).ConfigureAwait(false);
       return new CreateResponse(blogPost.Id);
     }
 
     public async Task Update(string id, UpdateBlogPostRequest request)
     {
-        var blogPost = await _repository.GetByIdAsync<BlogPost>(id);
-        if (blogPost == null) throw new DomainException(BlogPost.NotFoundError);
+        var blogPost = await GetBlogPost(id);
         blogPost.Update(request.Title,request.Content,request.Image);
-        await  _repository.UpdateAsync(blogPost);
+        await  _repository.UpdateAsync(blogPost).ConfigureAwait(false);
     }
 
     public async Task UpdateCategory(string id, string categoryId)
     {
-        var blogPost = await _repository.GetByIdAsync<BlogPost>(id);
-        if (blogPost == null) throw new DomainException(BlogPost.NotFoundError);
+        var blogPost = await GetBlogPost(id);
         var category = await _repository.GetByIdAsync<Category>(categoryId);
         if (category == null) throw new DomainException(Category.NotFoundError);
-        blogPost.UpdateCategory(category);
-        await  _repository.UpdateAsync(blogPost);
+        blogPost?.UpdateCategory(category);
+        await  _repository.UpdateAsync(blogPost).ConfigureAwait(false);
     }
+
+    private async Task<BlogPost?> GetBlogPost(string id)
+    {
+        var blogPost = await _repository.GetByIdAsync<BlogPost>(id);
+        if (blogPost == null) throw new DomainException(BlogPost.NotFoundError);
+        return blogPost;
+    }
+
     public async Task AssociateTag(string id, string tagId)
     {
         var blogPost = await _repository.GetWithTagsAsync(id);
@@ -56,7 +62,13 @@ public class BlogPostService : IBlogPostService
         var tag = await _repository.GetByIdAsync<Tag>(tagId);
         if (tag == null) throw new DomainException(Tag.NotFoundError);
         blogPost.AssociateTag(tag);
-        await  _repository.UpdateAsync(blogPost);
+        await  _repository.UpdateAsync(blogPost).ConfigureAwait(false);
+    }
+
+    public async Task DeleteBlogPost(string id)
+    {
+        var blogPost = await GetBlogPost(id);
+        await _repository.DeleteAsync(blogPost).ConfigureAwait(false);
     }
 
 

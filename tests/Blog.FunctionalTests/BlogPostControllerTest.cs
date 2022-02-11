@@ -57,7 +57,7 @@ public class BlogPostControllerTest
         //ATTEMPT
         var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
         //VERIFY
-        response.IsSuccessStatusCode.Should().BeTrue();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
         model.Should().NotBeNull();
         model.Id.Should().NotBeNull();
@@ -109,9 +109,89 @@ public class BlogPostControllerTest
         error.Message.Should().Be("blog post already exist");
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
+
+    [Fact]
+    public async Task Delete_ExistingBlogPost_ShouldReturnAnOkResponse()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost/testDelete",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("newCategory", "music");
+        var tag = Tag.Create("test", "test");
+        var blogPost = BlogPost.Create("testDelete", "test","string","image",author,category,new List<Tag>(){tag});
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        context.BlogPosts.Add(blogPost);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "admin");
+       var response= await client.DeleteAsync(request.Url);
+       response.StatusCode.Should().Be(HttpStatusCode.OK);
+       var model = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+       model.Should().NotBeNull();
+       model.Errors.Any().Should().BeFalse();
+    }
     
     [Fact]
-    public async Task Edit_ExistingBlogPost_ShouldReturnAOkResponse()
+    public async Task Delete_NotExistingBlogPost_ShouldReturnABadRequest()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost/testDelete",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("newCategory", "music");
+        var tag = Tag.Create("test", "test");
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "admin");
+        var response= await client.DeleteAsync(request.Url);
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var model = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        model.Should().NotBeNull();
+        model.Errors.Any().Should().BeTrue();
+        var error = model.Errors.FirstOrDefault();
+        error.Should().NotBeNull();
+        error.Code.Should().Be("DomainExceptionKey");
+        error.Message.Should().Be("blog post not found");
+    }
+    
+    [Fact]
+    public async Task Delete_ExistingBlogPost_WithNotAdminXUser_ShouldReturnAForbiddenResult()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost/testDelete",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("newCategory", "music");
+        var tag = Tag.Create("test", "test");
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        var response= await client.DeleteAsync(request.Url);
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    [Fact]
+    public async Task Edit_ExistingBlogPost_ShouldReturnAnOkResponse()
     {
         //SETUP
         var request = new

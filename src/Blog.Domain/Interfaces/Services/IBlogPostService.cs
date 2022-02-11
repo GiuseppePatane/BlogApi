@@ -8,4 +8,5 @@ public interface IBlogPostService
     Task Update(string id,UpdateBlogPostRequest request);
     Task UpdateCategory(string id, string categoryId);
     Task AssociateTag(string id, string tagId);
+    Task DeleteBlogPost(string id);
 }
