@@ -1,3 +1,4 @@
+using Blog.Api.Auth;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
@@ -14,7 +15,7 @@ public class XUserAuthorizationFilterAttribute : Attribute, IAuthorizationFilter
     }
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        context.HttpContext.Request.Headers.TryGetValue("X-User", out var userType);
+        context.HttpContext.Request.Headers.TryGetValue(AuthConst.XUserHeader, out var userType);
         if (string.IsNullOrWhiteSpace(userType))
         {
             context.Result = new UnauthorizedResult();
