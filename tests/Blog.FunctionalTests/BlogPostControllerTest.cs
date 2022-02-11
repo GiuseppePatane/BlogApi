@@ -579,7 +579,7 @@ public class BlogPostControllerTest
         //SETUP
         var request = new
         {
-            Url = "/api/BlogPosts/1/10?category=music&tags=test",
+            Url = "/api/BlogPosts?category=music&tags=test",
         };
         await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
         await TestClient.PrepareDatabase(context);
@@ -587,10 +587,22 @@ public class BlogPostControllerTest
         var category = Category.Create("Category", "music");
         var tag = Tag.Create("test", "test");
         var blogPostList = new List<BlogPost>();
-        
+        var content = @"<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ";
         for (int i = 1; i <= 30; i++)
         {
-            blogPostList.Add(BlogPost.Create($"{i}", $"test{i}","string","image",author,category,new List<Tag>(){tag}));
+            blogPostList.Add(BlogPost.Create($"{i}", $"test{i}",content,"https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",author,category,new List<Tag>(){tag}));
         }
         context.Categories.Add(category);
         context.Authors.Add(author);

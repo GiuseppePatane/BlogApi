@@ -3,8 +3,21 @@
     {
       BlogPostId: 1,
       Title: test1,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -14,8 +27,21 @@
     {
       BlogPostId: 2,
       Title: test2,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -25,8 +51,21 @@
     {
       BlogPostId: 3,
       Title: test3,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -36,8 +75,21 @@
     {
       BlogPostId: 4,
       Title: test4,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -47,8 +99,21 @@
     {
       BlogPostId: 5,
       Title: test5,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -58,8 +123,21 @@
     {
       BlogPostId: 6,
       Title: test6,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -69,8 +147,21 @@
     {
       BlogPostId: 7,
       Title: test7,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -80,8 +171,21 @@
     {
       BlogPostId: 8,
       Title: test8,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -91,8 +195,21 @@
     {
       BlogPostId: 9,
       Title: test9,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -102,8 +219,21 @@
     {
       BlogPostId: 10,
       Title: test10,
-      Content: string,
-      Image: image,
+      Content:
+<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ,
+      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
