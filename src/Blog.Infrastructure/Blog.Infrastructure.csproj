@@ -13,7 +13,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Blog.Core\Blog.Core.csproj" />
       <ProjectReference Include="..\Blog.Infrastructure.Db.EF\Blog.Infrastructure.Db.EF.csproj" />
-      <ProjectReference Include="..\Blog.Infrastructure.Db.SqlKata\Blog.Infrastructure.Db.SqlKata.csproj" />
     </ItemGroup>
 
 </Project>

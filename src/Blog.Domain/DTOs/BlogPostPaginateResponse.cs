@@ -12,6 +12,7 @@ public class PaginationResponse
 public class BlogPostPaginationResponse : PaginationResponse
 {
     public List<BlogPostResponse> Items { get; set; }
+    public int TotalPages { get; set; }
 }
 public class BlogPostResponse
 {

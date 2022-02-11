@@ -10,11 +10,14 @@ using Blog.Domain.DTOs;
 using Blog.Domain.Entities;
 using FluentAssertions;
 using Newtonsoft.Json;
+using VerifyTests;
+using VerifyXunit;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Blog.FunctionalTests;
 
+[UsesVerify]
 public class BlogPostControllerTest
 {
     private readonly ITestOutputHelper _testOutputHelper;
@@ -571,23 +574,28 @@ public class BlogPostControllerTest
     }
     
     [Fact]
-    public async Task GetTags()
+    public async Task GetTags_WithValidQueryStringParameters_ShouldReturnTheCorrectElements()
     {
         //SETUP
         var request = new
         {
-            Url = "/api/BlogPosts/0/0?title=test&&category=music&tags=test",
+            Url = "/api/BlogPosts/1/10?category=music&tags=test",
         };
         await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
         var tag = Tag.Create("test", "test");
-        var blogPost = BlogPost.Create("1", "test","string","image",author,category,new List<Tag>(){tag});
+        var blogPostList = new List<BlogPost>();
+        
+        for (int i = 1; i <= 30; i++)
+        {
+            blogPostList.Add(BlogPost.Create($"{i}", $"test{i}","string","image",author,category,new List<Tag>(){tag}));
+        }
         context.Categories.Add(category);
         context.Authors.Add(author);
         context.Tags.Add(tag);
-        context.BlogPosts.Add(blogPost);
+        context.BlogPosts.AddRange(blogPostList);
         await context.SaveChangesAsync();
         var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
         client.DefaultRequestHeaders.Add("X-USER", "user");
@@ -596,7 +604,7 @@ public class BlogPostControllerTest
         //VERIFY
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var model = await response.Content.ReadFromJsonAsync<BlogPostPaginationResponse>();
-        model.Should().NotBeNull();
+        await Verifier.Verify(model);
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
 }
