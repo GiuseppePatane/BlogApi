@@ -569,4 +569,34 @@ public class BlogPostControllerTest
         error.Message.Should().Be("tag not found");
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
+    
+    [Fact]
+    public async Task GetTags()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPosts/0/0?title=test&&category=music&tags=test",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("Category", "music");
+        var tag = Tag.Create("test", "test");
+        var blogPost = BlogPost.Create("1", "test","string","image",author,category,new List<Tag>(){tag});
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        context.BlogPosts.Add(blogPost);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var model = await response.Content.ReadFromJsonAsync<BlogPostPaginationResponse>();
+        model.Should().NotBeNull();
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
 }

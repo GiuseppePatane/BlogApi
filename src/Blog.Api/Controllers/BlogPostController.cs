@@ -84,4 +84,13 @@ public class BlogPostController:Controller
         await _blogPostService.DeleteBlogPost(id);
         return Ok(new ErrorResponse());
     }
+    
+    [HttpGet]
+    [Route("api/BlogPosts/{page:int}/{perPage:int}")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetTag( int page, int perPage,  string title,string category,[FromQuery] List<string>tags)
+    {
+       var result= await _blogPostService.GetTags(page,perPage,title, category, tags);
+        return Ok(result);
+    }
 }

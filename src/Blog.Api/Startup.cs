@@ -19,7 +19,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Configuration.GetConnectionString("PostgreSqlConnection");
-
+     
         services.AddDbContextWithPostgresql(connectionString);
         services.AddServices();
         services.AddRepositories();
@@ -52,8 +52,7 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
-       // app.UseHttpsRedirection();
+        
         app.UseRouting();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>
