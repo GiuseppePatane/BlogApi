@@ -3,7 +3,7 @@ using Blog.Domain.Entities;
 using Blog.Domain.Exceptions;
 using Xunit;
 
-namespace Blog.UnitTests;
+namespace Blog.UnitTests.Entities;
 
 public class BaseEntityTest :BaseEntity
 {
@@ -21,7 +21,7 @@ public class BaseEntityTest :BaseEntity
         IsInvalidGuid(guid,nameof(guid));
         ValidateErrors();
     }
-    public void CheckString(string str)
+    public void CheckString(string? str)
     {
         IsInvalidString(str,nameof(str));
         ValidateErrors();

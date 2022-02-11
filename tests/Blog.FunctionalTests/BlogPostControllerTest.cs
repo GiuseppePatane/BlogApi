@@ -34,7 +34,7 @@ public class BlogPostControllerTest
             {
                 title= "test", 
                 content= "string",
-                image= "string",
+                imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
                 authorId= "test",
                 categoryId= "newCategory", 
                 tags= new string[]
@@ -65,6 +65,80 @@ public class BlogPostControllerTest
     }
     
     [Fact]
+    public async Task CreateNewBlogPost_WithLargeContent_ShouldReturnBadRequest()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost",
+            Body = new
+            {
+                title= "test", 
+                content= ";Zw8&C}87Z44{UxD$[#e(NW:?]qtB.[WbzS#eXpY!L7MzL]}V-YxFnc&iF{z4r:&=ZQ8k+$B+C;;ND;wwD?-cnmg/X)NH{-7@w$+*fMma{f!N&t}P2zvEES+SfTFS#%YSN$zt[$j?RE)?nn%_$uNx9W5,Pd[DQuq?Qmp7=6t]7{+k$NDSg+=C][N%zu#wUqKzuVi;a*!kJcmb6#B%T#[gAap_QVi9jfyqTHxCmxi8EbT;/b:.eH+/g$YEDt%$-+%5uTZwviwE-]{xRNhM=d:TREaeG(g/;eBq9[&RxN$}?=]d*QWkdJ&2;f(@FJ-&T?vmRP4LVY$Fv(9Nk&KEGSYd3;yx-3B?d3+2eAB@]wp=(WKtP[VgE=]%MT}hhS7!b96$@3L;m]_-Jetf;d9a]MWB/UnB;inGW#,dq.5[!,c7nG9M7}z5K/mSHf4w(q&KAyByn(m+pQviT[CPrm+2NFk7f]]z&)G]26RfB/vt5x8?]FYV@&[ZtgiZq{6c[*q$m)4,R-ibE!+XiF-hRdR@KYjLu6P?$+y,6En?=SHBENw!Nd%%mw!/yu}Vp($R.Z{%}cjfKunv$EK!r4hENJN[S+3)Nr.U9x[,yJ_$EzZ6w*_GhD)Bh7;8Lf=/,h9Adk;{&E2mnnaa#@[8(Utn{e&{2-!)SSEaqAKe=.UXzC2Jy%9J),GXe;/9Hd2u@3Z7ArchR#wnbq98+b#HJyW-!SDYj3FEk:+:m$jS{tWt/(GX*PL6:v8p&,U&w@/7[DjXxC-TV}vjW@E8.7SWHG{w#.jrVp)AG%N=&yWdeKH}YSepa$DGmdLjxUgC{V$CXV)hVamkBd4(a%_W&m4-y$k@)PeS8k[vV5?n2)!#hA##?:fWbCcA({2QV!tJ5w%f.F:!3Jn8u_G#RuXiQ8;eU*BG+mn/?{5-G}Bt8LCd5D[kKvh,D@UqNC.nVDZk7@H$XAfh@_wH9LiyEhA;HHBfr;wqzXtfg[M;jJu))2jX9]xH655UJ;c%P$P8)7b(;xndw58ieqFQ@#-?",
+                imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
+                authorId= "test",
+                categoryId= "newCategory", 
+                tags= new string[]
+                {
+                    "test"
+                }
+            }
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("newCategory", "music");
+        var tag = Tag.Create("test", "test");
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var model = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        model.Should().NotBeNull();
+        model.Errors.Count.Should().Be(1);
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
+    [Fact]
+    public async Task CreateNewBlogPost_WithInvalidRequest_ShouldReturnABadRequest()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost",
+            Body = new
+            {
+                tags= new string[]
+                {
+                    
+                }
+            }
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("newCategory", "music");
+        var tag = Tag.Create("test", "test");
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var model = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        model.Should().NotBeNull();
+        model.Errors.Count.Should().Be(12);
+    }
+    [Fact]
     public async Task CreateNewBlogPost_WithExistingBlogPost_ShouldReturnABadRequest()
     {
         //SETUP
@@ -76,7 +150,7 @@ public class BlogPostControllerTest
                 name = "test",
                 title= "test", 
                 content= "string",
-                image= "string",
+                imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
                 authorId= "test",
                 categoryId= "newCategory", 
                 tags= new string[]
@@ -201,7 +275,7 @@ public class BlogPostControllerTest
             {
                 title= "string2", 
                 content= "string2",
-                image= "string2",
+                imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
             }
         };
         await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
@@ -226,7 +300,33 @@ public class BlogPostControllerTest
         model.Errors.Any().Should().BeFalse();
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
-    
+    [Fact]
+    public async Task Edit_WithInvalidParameters_ShouldReturnABadRequest()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost/sdfsfsf",
+            Body = new
+            {
+                title= "string2", 
+                content= ";Zw8&C}87Z44{UxD$[#e(NW:?]qtB.[WbzS#eXpY!L7MzL]}V-YxFnc&iF{z4r:&=ZQ8k+$B+C;;ND;wwD?-cnmg/X)NH{-7@w$+*fMma{f!N&t}P2zvEES+SfTFS#%YSN$zt[$j?RE)?nn%_$uNx9W5,Pd[DQuq?Qmp7=6t]7{+k$NDSg+=C][N%zu#wUqKzuVi;a*!kJcmb6#B%T#[gAap_QVi9jfyqTHxCmxi8EbT;/b:.eH+/g$YEDt%$-+%5uTZwviwE-]{xRNhM=d:TREaeG(g/;eBq9[&RxN$}?=]d*QWkdJ&2;f(@FJ-&T?vmRP4LVY$Fv(9Nk&KEGSYd3;yx-3B?d3+2eAB@]wp=(WKtP[VgE=]%MT}hhS7!b96$@3L;m]_-Jetf;d9a]MWB/UnB;inGW#,dq.5[!,c7nG9M7}z5K/mSHf4w(q&KAyByn(m+pQviT[CPrm+2NFk7f]]z&)G]26RfB/vt5x8?]FYV@&[ZtgiZq{6c[*q$m)4,R-ibE!+XiF-hRdR@KYjLu6P?$+y,6En?=SHBENw!Nd%%mw!/yu}Vp($R.Z{%}cjfKunv$EK!r4hENJN[S+3)Nr.U9x[,yJ_$EzZ6w*_GhD)Bh7;8Lf=/,h9Adk;{&E2mnnaa#@[8(Utn{e&{2-!)SSEaqAKe=.UXzC2Jy%9J),GXe;/9Hd2u@3Z7ArchR#wnbq98+b#HJyW-!SDYj3FEk:+:m$jS{tWt/(GX*PL6:v8p&,U&w@/7[DjXxC-TV}vjW@E8.7SWHG{w#.jrVp)AG%N=&yWdeKH}YSepa$DGmdLjxUgC{V$CXV)hVamkBd4(a%_W&m4-y$k@)PeS8k[vV5?n2)!#hA##?:fWbCcA({2QV!tJ5w%f.F:!3Jn8u_G#RuXiQ8;eU*BG+mn/?{5-G}Bt8LCd5D[kKvh,D@UqNC.nVDZk7@H$XAfh@_wH9LiyEhA;HHBfr;wqzXtfg[M;jJu))2jX9]xH655UJ;c%P$P8)7b(;xndw58ieqFQ@#-?",
+                imageUrl= "https://",
+            }
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response =  await  client.PatchAsync(request.Url, new StringContent(JsonConvert.SerializeObject(request.Body), Encoding.UTF8, "application/json") );
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        var model = await response.Content.ReadFromJsonAsync<ErrorResponse>();
+        model.Should().NotBeNull();
+        model.Errors.Count.Should().Be(2);
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
     [Fact]
     public async Task Edit_NotExistingBlogPost_ShouldReturnABadRequest()
     {
@@ -238,7 +338,7 @@ public class BlogPostControllerTest
             {
                 title= "string2", 
                 content= "string2",
-                image= "string2",
+                imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
             }
         };
         await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
