@@ -10,9 +10,12 @@ public class TagTest
     [Fact]
     public void Create_New_Tag_WithValidDate_Should_NotThrow_Exceptions()
     {
+        //SETUP
         string? id = "testId";
         string? name = "c#";
+        //ATTEMPT
         var category = Tag.Create(id, name);
+        //VERIFY
         category.Should().NotBeNull();
         category.Id.Should().Be(id);
         category.Name.Should().Be(name);

@@ -10,9 +10,12 @@ public class AuthorTest
     [Fact]
     public void Create_New_Author_WithValidDate_Should_NotThrow_Exceptions()
     {
+        //SETUP
         string? id = "testId";
         string? name = "Pippo";
+        //ATTEMPT
         var author = Author.Create(id, name);
+        //VERIFY
         author.Should().NotBeNull();
         author.Id.Should().Be(id);
         author.Name.Should().Be(name);

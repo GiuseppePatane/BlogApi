@@ -21,6 +21,7 @@ namespace Blog.FunctionalTests;
         [Fact]
         public async Task CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId()
         {
+            //SETUP
             var request = new
             {
                 Url = "/api/Category",
@@ -33,7 +34,10 @@ namespace Blog.FunctionalTests;
                 nameof(this.CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
             await TestClient.PrepareDatabase(context);
             var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
+            client.DefaultRequestHeaders.Add("X-USER", "user");
+            //ATTEMPT
             var response = await client.PostAsJsonAsync(request.Url, request.Body);
+            //VERIFY
             response.IsSuccessStatusCode.Should().BeTrue();
             var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
             model.Should().NotBeNull();
@@ -44,6 +48,7 @@ namespace Blog.FunctionalTests;
         [Fact]
         public async Task CreateNewCategory_TwoTimes_WithValidRequest_ShouldReturnTheCreatedId()
         {
+            //SETUP
             var request = new
             {
                 Url = "/api/Category",
@@ -56,8 +61,10 @@ namespace Blog.FunctionalTests;
                 nameof(this.CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
             await TestClient.PrepareDatabase(context);
             var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
+            client.DefaultRequestHeaders.Add("X-USER", "user");
+            //ATTEMPT
             var response = await client.PostAsJsonAsync(request.Url, request.Body);
-
+            //VERIFY
             response.IsSuccessStatusCode.Should().BeTrue();
             var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
             model.Should().NotBeNull();

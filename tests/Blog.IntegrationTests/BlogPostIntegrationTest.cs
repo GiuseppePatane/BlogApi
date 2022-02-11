@@ -146,8 +146,8 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         var blogPost = await repository.GetByIdAsync<BlogPost>("test");
         blogPost.UpdateCategory(category);
         await repository.UpdateAsync<BlogPost>(blogPost);
-        //ASSERT 
         blogPost = await repository.GetByIdAsync<BlogPost>("test");
+        //VERIFY 
         blogPost.CategoryId.Should().Be(category.Id);
         await CheckDatabaseAndRemoveIt(context);
     }
@@ -164,12 +164,10 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         context.Categories.Add(category);
         context.Tags.Add(tag);
         await context.SaveChangesAsync();
-        //ATTEMPT 
         var repository = new EfRepository(context);
+        //VERIFY 
         await Assert.ThrowsAsync<DbUpdateConcurrencyException>(() =>
             repository.UpdateAsync<BlogPost>(BlogPost.Create("test", "il grande test", "test","https://cdn.com/image.jpg",author,category,new List<Tag>(){tag})));
-
-        //ASSERT 
         await CheckDatabaseAndRemoveIt(context);
     }
 
@@ -190,10 +188,9 @@ public class BlogPostIntegrationTest : IntegrationTestBase
         //ATTEMPT 
         var repository = new EfRepository(context);
         var blogPost = await repository.GetByIdAsync<BlogPost>("test");
-
         await repository.DeleteAsync<BlogPost>(blogPost);
-        //ASSERT 
         blogPost = await repository.GetByIdAsync<BlogPost>("test");
+        //VERIFY 
         blogPost.Should().BeNull();
         await CheckDatabaseAndRemoveIt(context);
     }

@@ -27,8 +27,9 @@ internal class TestClient : WebApplicationFactory<Program>
         Environment = environment;
     }
 
-    public static HttpClient CreateHttpClient(ITestOutputHelper testOutputHelper, string connectionString)
+    public static HttpClient CreateHttpClient(ITestOutputHelper testOutputHelper, string? connectionString=null)
     {
+        if (string.IsNullOrWhiteSpace(connectionString)) return new TestClient(testOutputHelper).CreateClient();
         var server = new TestClient(testOutputHelper).WithWebHostBuilder((builder =>
         {
             builder.ConfigureAppConfiguration((_, configurationBuilder) =>

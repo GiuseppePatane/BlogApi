@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Blog.Domain.DTOs;
@@ -19,8 +20,46 @@ public class AuthorControllerTest
     }
 
     [Fact]
+    public async Task CreateNewAuthor_Without_XUser_ShouldReturn401()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/Author",
+            Body = new
+            {
+                name = "test",
+            }
+        };
+        var client = TestClient.CreateHttpClient(_testOutputHelper);
+        //ATTEMPT
+        var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    }
+    [Fact]
+    public async Task CreateNewAuthor_With_InvalidXUser_ShouldReturn403()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/Author",
+            Body = new
+            {
+                name = "test",
+            }
+        };
+        var client = TestClient.CreateHttpClient(_testOutputHelper);
+        client.DefaultRequestHeaders.Add("X-USER", "DSFSDFSDFDS");
+        //ATTEMPT
+        var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    [Fact]
     public async Task CreateNewAuthor_WithValidRequest_ShouldReturnTheCreatedId()
     {
+        //SETUP
         var request = new
         {
             Url = "/api/Author",
@@ -32,7 +71,10 @@ public class AuthorControllerTest
         await using var context = TestClient.GetDbContext(nameof(this.CreateNewAuthor_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
        var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
+       //VERIFY
        response.IsSuccessStatusCode.Should().BeTrue();
        var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
        model.Should().NotBeNull();
@@ -42,6 +84,7 @@ public class AuthorControllerTest
     [Fact]
     public async Task CreateNewAuthor_TwoTimes_WithValidRequest_ShouldReturnTheCreatedId()
     {
+        //SETUP
         var request = new
         {
             Url = "/api/Author",
@@ -53,8 +96,10 @@ public class AuthorControllerTest
         await using var context = TestClient.GetDbContext(nameof(this.CreateNewAuthor_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
         var response =  await  client.PostAsJsonAsync(request.Url, request.Body);
-        
+        //VERIFY
         response.IsSuccessStatusCode.Should().BeTrue();
         var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
         model.Should().NotBeNull();
@@ -62,7 +107,6 @@ public class AuthorControllerTest
         var errorResponse =  await  client.PostAsJsonAsync(request.Url, request.Body);
         errorResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         var errorModel = await errorResponse.Content.ReadFromJsonAsync<ErrorResponse>();
-
         var error = errorModel.Errors.FirstOrDefault();
         error.Should().NotBeNull();
         error.Code.Should().Be("DomainExceptionKey");

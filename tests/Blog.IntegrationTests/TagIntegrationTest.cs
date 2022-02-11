@@ -21,8 +21,8 @@ public class TagIntegrationTest :IntegrationTestBase
         var repository = new EfRepository(context);
         await repository.AddAsync(Tag.Create("test", "pippo"));
         await context.SaveChangesAsync();
-        //ASSERT 
         var tag = await repository.GetByIdAsync<Tag>("test");
+        //VERIFY 
         tag.Should().NotBeNull();
         tag.Name.Should().Be("pippo");
         await CheckDatabaseAndRemoveIt(context);
@@ -40,8 +40,8 @@ public class TagIntegrationTest :IntegrationTestBase
         var tag = await repository.GetByIdAsync<Tag>("test");
         tag.Update("pluto");
         await repository.UpdateAsync<Tag>(tag);
-        //ASSERT 
         tag = await repository.GetByIdAsync<Tag>("test");
+        //VERIFY 
         tag.Should().NotBeNull();
         tag.Name.Should().Be("pluto");
         await CheckDatabaseAndRemoveIt(context);
@@ -52,11 +52,9 @@ public class TagIntegrationTest :IntegrationTestBase
         // SETUP
         await using var context = new BlogDbContext(GenDbContextOptions());
         await  PrepareDatabase(context).ConfigureAwait(false);
-        //ATTEMPT 
         var repository = new EfRepository(context);
+        //VERIFY 
         await Assert.ThrowsAsync<DbUpdateConcurrencyException>(() => repository.UpdateAsync<Tag>(Tag.Create("test", "pippo")));
-     
-        //ASSERT 
         await CheckDatabaseAndRemoveIt(context);
     }
     [Fact]
@@ -70,10 +68,9 @@ public class TagIntegrationTest :IntegrationTestBase
         //ATTEMPT 
         var repository = new EfRepository(context);
         var tag = await repository.GetByIdAsync<Tag>("test");
-        
         await repository.DeleteAsync<Tag>(tag);
-        //ASSERT 
         tag = await repository.GetByIdAsync<Tag>("test");
+        //VERIFY 
         tag.Should().BeNull();
         await CheckDatabaseAndRemoveIt(context);
     }

@@ -21,8 +21,8 @@ public class CategoryIntegrationTest: IntegrationTestBase
         var repository = new EfRepository(context);
         await repository.AddAsync(Category.Create("test", "pippo"));
         await context.SaveChangesAsync();
-        //ASSERT 
         var category = await repository.GetByIdAsync<Category>("test");
+        //VERIFY 
         category.Should().NotBeNull();
         category.Name.Should().Be("pippo");
         await CheckDatabaseAndRemoveIt(context);
@@ -40,8 +40,8 @@ public class CategoryIntegrationTest: IntegrationTestBase
         var category = await repository.GetByIdAsync<Category>("test");
         category.Update("pluto");
         await repository.UpdateAsync<Category>(category);
-        //ASSERT 
         category = await repository.GetByIdAsync<Category>("test");
+        //VERIFY 
         category.Should().NotBeNull();
         category.Name.Should().Be("pluto");
         await CheckDatabaseAndRemoveIt(context);
@@ -52,11 +52,9 @@ public class CategoryIntegrationTest: IntegrationTestBase
         // SETUP
         await using var context = new BlogDbContext(GenDbContextOptions());
         await  PrepareDatabase(context).ConfigureAwait(false);
-        //ATTEMPT 
         var repository = new EfRepository(context);
+        //VERIFY 
         await Assert.ThrowsAsync<DbUpdateConcurrencyException>(() => repository.UpdateAsync<Category>(Category.Create("test", "pippo")));
-     
-        //ASSERT 
         await CheckDatabaseAndRemoveIt(context);
     }
     [Fact]
@@ -70,10 +68,9 @@ public class CategoryIntegrationTest: IntegrationTestBase
         //ATTEMPT 
         var repository = new EfRepository(context);
         var category = await repository.GetByIdAsync<Category>("test");
-        
         await repository.DeleteAsync<Category>(category);
-        //ASSERT 
         category = await repository.GetByIdAsync<Category>("test");
+        //VERIFY 
         category.Should().BeNull();
         await CheckDatabaseAndRemoveIt(context);
     }
