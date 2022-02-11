@@ -24,10 +24,11 @@ public class IntegrationTestBase
     protected async Task CheckDatabaseAndRemoveIt(BlogDbContext dbContext)
     {
         if (await dbContext.Database.CanConnectAsync().ConfigureAwait(false))
+        {
             await dbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
+        }
     }
-
-    protected async Task PrepareDatabase(BlogDbContext appDbContext)
+    protected   async Task PrepareDatabase(BlogDbContext appDbContext)
     {
         await CheckDatabaseAndRemoveIt(appDbContext);
         await appDbContext.Database.EnsureCreatedAsync();

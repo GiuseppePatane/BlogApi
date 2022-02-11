@@ -8,21 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.6" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="Blog.FunctionalTests"/>
-        <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj"/>
-        <ProjectReference Include="..\Blog.Infrastructure.Validator.FluentValidation\Blog.Infrastructure.Validator.FluentValidation.csproj"/>
-        <ProjectReference Include="..\Blog.Infrastructure\Blog.Infrastructure.csproj"/>
+        <InternalsVisibleTo Include="Blog.FunctionalTests" />
+      <ProjectReference Include="..\Blog.Domain\Blog.Domain.csproj" />
+      <ProjectReference Include="..\Blog.Infrastructure.Validator.FluentValidation\Blog.Infrastructure.Validator.FluentValidation.csproj" />
+      <ProjectReference Include="..\Blog.Infrastructure\Blog.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Update="appsettings.Development.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
+      <Content Update="appsettings.Development.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

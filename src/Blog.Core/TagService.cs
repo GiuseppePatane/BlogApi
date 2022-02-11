@@ -9,8 +9,8 @@ namespace Blog.Core;
 
 public class TagService : ITagService
 {
-    private readonly IIdGenerator _idGenerator;
     private readonly ITagRepository _repository;
+    private readonly IIdGenerator _idGenerator;
 
     public TagService(ITagRepository repository, IIdGenerator idGenerator)
     {

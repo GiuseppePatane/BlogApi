@@ -9,8 +9,8 @@ namespace Blog.Core;
 
 public class CategoryService : ICategoryService
 {
-    private readonly IIdGenerator _idGenerator;
     private readonly ICategoryRepository _repository;
+    private readonly IIdGenerator _idGenerator;
 
     public CategoryService(ICategoryRepository repository, IIdGenerator idGenerator)
     {
@@ -23,7 +23,7 @@ public class CategoryService : ICategoryService
         var exist = await _repository.GetByNameAsync(request.Name);
         if (exist)
             throw new DomainException(Category.AlreadyExistError);
-
+        
         var author = Category.Create(_idGenerator.GenerateId(), request.Name);
         await _repository.AddAsync(author);
         return new CreateResponse(author?.Id);

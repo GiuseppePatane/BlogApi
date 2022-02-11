@@ -11,7 +11,7 @@ namespace Blog.FunctionalTests;
 
 public class TagControllerTest
 {
-    private readonly ITestOutputHelper _testOutputHelper;
+    private ITestOutputHelper _testOutputHelper;
 
     public TagControllerTest(ITestOutputHelper testOutputHelper)
     {
@@ -27,11 +27,11 @@ public class TagControllerTest
             Url = "/api/Tag",
             Body = new
             {
-                name = "test"
+                name = "test",
             }
         };
         await using var context = TestClient.GetDbContext(
-            nameof(CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
+            nameof(this.CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
         client.DefaultRequestHeaders.Add("X-USER", "user");
@@ -54,11 +54,11 @@ public class TagControllerTest
             Url = "/api/Tag",
             Body = new
             {
-                name = "test"
+                name = "test",
             }
         };
         await using var context = TestClient.GetDbContext(
-            nameof(CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
+            nameof(this.CreateNewTag_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
         client.DefaultRequestHeaders.Add("X-USER", "user");
@@ -78,4 +78,7 @@ public class TagControllerTest
         error.Code.Should().Be("DomainExceptionKey");
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
+
+
+
 }

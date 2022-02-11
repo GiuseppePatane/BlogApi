@@ -21,17 +21,16 @@ internal class TestClient : WebApplicationFactory<Program>
 {
     private readonly ITestOutputHelper _testOutputHelper;
     public readonly string Environment;
-
-    private TestClient(ITestOutputHelper testOutputHelper, string environment = "FunctionalTests")
+    private TestClient(ITestOutputHelper testOutputHelper ,string environment = "FunctionalTests")
     {
         _testOutputHelper = testOutputHelper;
         Environment = environment;
     }
 
-    public static HttpClient CreateHttpClient(ITestOutputHelper testOutputHelper, string? connectionString = null)
+    public static HttpClient CreateHttpClient(ITestOutputHelper testOutputHelper, string? connectionString=null)
     {
         if (string.IsNullOrWhiteSpace(connectionString)) return new TestClient(testOutputHelper).CreateClient();
-        var server = new TestClient(testOutputHelper).WithWebHostBuilder(builder =>
+        var server = new TestClient(testOutputHelper).WithWebHostBuilder((builder =>
         {
             builder.ConfigureAppConfiguration((_, configurationBuilder) =>
             {
@@ -41,13 +40,17 @@ internal class TestClient : WebApplicationFactory<Program>
                     }
                 );
             });
-            builder.ConfigureServices(s => { s.AddDbContextWithPostgresql(connectionString); });
-        }).Server;
+            builder.ConfigureServices(s =>
+            {
+                s.AddDbContextWithPostgresql(connectionString);
+            });
+           
+        } )).Server;
         return server.CreateClient();
     }
+ 
 
-
-    public static BlogDbContext GetDbContext(string databaseName, out string connectionString)
+    public static BlogDbContext  GetDbContext(string databaseName,out string connectionString )
     {
         var config = AppSettings.GetConfiguration();
         connectionString = new NpgsqlConnectionStringBuilder(
@@ -61,27 +64,25 @@ internal class TestClient : WebApplicationFactory<Program>
         return new BlogDbContext(optionsBuilder.Options);
     }
 
-    public static async Task PrepareDatabase(BlogDbContext appDbContext)
+    public  static async Task PrepareDatabase(BlogDbContext appDbContext)
     {
         await CheckDatabaseAndRemoveIt(appDbContext);
         await appDbContext.Database.EnsureCreatedAsync();
     }
-
     public static async Task PrepareDatabaseWithMigrations(BlogDbContext appDbContext)
     {
         await CheckDatabaseAndRemoveIt(appDbContext);
         await appDbContext.Database.MigrateAsync();
     }
-
+    
     public static IServiceProvider GetServiceProvider(ITestOutputHelper testOutputHelper)
     {
         return new TestClient(testOutputHelper).Server.Services;
     }
-
     protected override IHost CreateHost(IHostBuilder builder)
     {
         builder.UseEnvironment(Environment);
-
+      
         builder.ConfigureLogging(loggingBuilder =>
         {
             loggingBuilder.ClearProviders();
@@ -94,6 +95,8 @@ internal class TestClient : WebApplicationFactory<Program>
     public static async Task CheckDatabaseAndRemoveIt(BlogDbContext appDbContext)
     {
         if (await appDbContext.Database.CanConnectAsync().ConfigureAwait(false))
+        {
             await appDbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
+        }
     }
 }

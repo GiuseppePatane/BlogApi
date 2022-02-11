@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Blog.Infrastructure.Db.EF.Configurations;
 
-public class AuthorConfiguration : IEntityTypeConfiguration<Author>
+public class AuthorConfiguration: IEntityTypeConfiguration<Author>
 {
     public void Configure(EntityTypeBuilder<Author> builder)
     {

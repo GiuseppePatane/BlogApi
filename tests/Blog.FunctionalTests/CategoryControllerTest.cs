@@ -9,73 +9,73 @@ using Xunit.Abstractions;
 
 namespace Blog.FunctionalTests;
 
-public class CategoryControllerTest
-{
-    private readonly ITestOutputHelper _testOutputHelper;
-
-    public CategoryControllerTest(ITestOutputHelper testOutputHelper)
+    public class CategoryControllerTest
     {
-        _testOutputHelper = testOutputHelper;
-    }
+        private ITestOutputHelper _testOutputHelper;
 
-    [Fact]
-    public async Task CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId()
-    {
-        //SETUP
-        var request = new
+        public CategoryControllerTest(ITestOutputHelper testOutputHelper)
         {
-            Url = "/api/Category",
-            Body = new
-            {
-                name = "test"
-            }
-        };
-        await using var context = TestClient.GetDbContext(
-            nameof(CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
-        await TestClient.PrepareDatabase(context);
-        var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
-        client.DefaultRequestHeaders.Add("X-USER", "user");
-        //ATTEMPT
-        var response = await client.PostAsJsonAsync(request.Url, request.Body);
-        //VERIFY
-        response.IsSuccessStatusCode.Should().BeTrue();
-        var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
-        model.Should().NotBeNull();
-        model.Id.Should().NotBeNull();
-        await TestClient.CheckDatabaseAndRemoveIt(context);
-    }
+            _testOutputHelper = testOutputHelper;
+        }
 
-    [Fact]
-    public async Task CreateNewCategory_TwoTimes_WithValidRequest_ShouldReturnTheCreatedId()
-    {
-        //SETUP
-        var request = new
+        [Fact]
+        public async Task CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId()
         {
-            Url = "/api/Category",
-            Body = new
+            //SETUP
+            var request = new
             {
-                name = "test"
-            }
-        };
-        await using var context = TestClient.GetDbContext(
-            nameof(CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
-        await TestClient.PrepareDatabase(context);
-        var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
-        client.DefaultRequestHeaders.Add("X-USER", "user");
-        //ATTEMPT
-        var response = await client.PostAsJsonAsync(request.Url, request.Body);
-        //VERIFY
-        response.IsSuccessStatusCode.Should().BeTrue();
-        var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
-        model.Should().NotBeNull();
-        model.Id.Should().NotBeNull();
-        var errorResponse = await client.PostAsJsonAsync(request.Url, request.Body);
-        errorResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        var errorModel = await errorResponse.Content.ReadFromJsonAsync<ErrorResponse>();
+                Url = "/api/Category",
+                Body = new
+                {
+                    name = "test",
+                }
+            };
+            await using var context = TestClient.GetDbContext(
+                nameof(this.CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
+            await TestClient.PrepareDatabase(context);
+            var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
+            client.DefaultRequestHeaders.Add("X-USER", "user");
+            //ATTEMPT
+            var response = await client.PostAsJsonAsync(request.Url, request.Body);
+            //VERIFY
+            response.IsSuccessStatusCode.Should().BeTrue();
+            var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
+            model.Should().NotBeNull();
+            model.Id.Should().NotBeNull();
+            await TestClient.CheckDatabaseAndRemoveIt(context);
+        }
 
-        var error = errorModel.Errors.FirstOrDefault();
-        error.Should().NotBeNull();
-        error.Code.Should().Be("DomainExceptionKey");
-        await TestClient.CheckDatabaseAndRemoveIt(context);
+        [Fact]
+        public async Task CreateNewCategory_TwoTimes_WithValidRequest_ShouldReturnTheCreatedId()
+        {
+            //SETUP
+            var request = new
+            {
+                Url = "/api/Category",
+                Body = new
+                {
+                    name = "test",
+                }
+            };
+            await using var context = TestClient.GetDbContext(
+                nameof(this.CreateNewCategory_WithValidRequest_ShouldReturnTheCreatedId), out var connectionString);
+            await TestClient.PrepareDatabase(context);
+            var client = TestClient.CreateHttpClient(_testOutputHelper, connectionString);
+            client.DefaultRequestHeaders.Add("X-USER", "user");
+            //ATTEMPT
+            var response = await client.PostAsJsonAsync(request.Url, request.Body);
+            //VERIFY
+            response.IsSuccessStatusCode.Should().BeTrue();
+            var model = await response.Content.ReadFromJsonAsync<CreateResponse>();
+            model.Should().NotBeNull();
+            model.Id.Should().NotBeNull();
+            var errorResponse = await client.PostAsJsonAsync(request.Url, request.Body);
+            errorResponse.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var errorModel = await errorResponse.Content.ReadFromJsonAsync<ErrorResponse>();
+
+            var error = errorModel.Errors.FirstOrDefault();
+            error.Should().NotBeNull();
+            error.Code.Should().Be("DomainExceptionKey");
+            await TestClient.CheckDatabaseAndRemoveIt(context);
+        }
     }
-}

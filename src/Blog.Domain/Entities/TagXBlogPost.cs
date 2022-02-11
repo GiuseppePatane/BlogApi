@@ -8,13 +8,13 @@ public class TagXBlogPost
         TagId = tagId;
     }
 
-    public string BlogPostId { get; }
-    public string TagId { get; }
-    public virtual BlogPost BLogPost { get; }
-    public virtual Tag Tag { get; }
-
     internal static TagXBlogPost Create(string blogPostId, string tagId)
     {
         return new TagXBlogPost(blogPostId, tagId);
     }
+
+    public  string BlogPostId { get; }
+    public  string TagId { get; }
+    public  virtual BlogPost BLogPost { get; }
+    public virtual  Tag Tag { get; }
 }

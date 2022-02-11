@@ -14,5 +14,7 @@ public static class StartupSetupServices
         services.AddTransient<ITagService, TagService>();
         services.AddTransient<IIdGenerator, IdGuidGenerator>();
         services.AddTransient<IBlogPostService, BlogPostService>();
+       
+
     }
 }

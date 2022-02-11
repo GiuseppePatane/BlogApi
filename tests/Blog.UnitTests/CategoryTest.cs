@@ -12,8 +12,8 @@ public class CategoryTest
     public void Create_New_Category_WithValidDate_Should_Throw_Exceptions()
     {
         //SETUP
-        var id = "testId";
-        var name = "programming";
+        string? id = "testId";
+        string? name = "programming";
         //ATTEMPT
         var category = Category.Create(id, name);
         //VERIFU
@@ -22,21 +22,21 @@ public class CategoryTest
         category.Name.Should().Be(name);
         category.CreationDateUtc.Should().BeAfter(DateTime.UtcNow.Date);
     }
-
+    
     [Fact]
     public void Create_New_Category_WithInvalidData_Should_NotThrow_Exceptions()
     {
-        Assert.Throws<DomainException>(() => Category.Create(null, null));
-        Assert.Throws<DomainException>(() => Category.Create("sdfdsfdsf", null));
-        Assert.Throws<DomainException>(() => Category.Create(null, "sdfdsfdfdsf"));
+        Assert.Throws<DomainException>((() => Category.Create(null, null)));
+        Assert.Throws<DomainException>((() => Category.Create("sdfdsfdsf", null)));
+        Assert.Throws<DomainException>((() => Category.Create(null, "sdfdsfdfdsf")));
     }
-
+    
     [Fact]
     public void Update_Category_WithValidDate_Should_NotThrow_Exceptions()
     {
         //SETUP
-        var id = "testId";
-        var name = "programming";
+        string? id = "testId";
+        string? name = "programming";
         //ATTEMPT
         var category = Category.Create(id, name);
         //VERIFY

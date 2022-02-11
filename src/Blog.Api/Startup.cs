@@ -5,16 +5,17 @@ using Blog.Infrastructure;
 using Blog.Infrastructure.Validator.FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 public class Startup
 {
+   
     public Startup(IConfiguration configuration)
     {
         Configuration = configuration;
     }
 
     public IConfiguration Configuration { get; }
-
     public void ConfigureServices(IServiceCollection services)
     {
         var connectionString = Configuration.GetConnectionString("PostgreSqlConnection");
@@ -24,10 +25,16 @@ public class Startup
         services.AddRepositories();
 
         services.AddAuthentication("XUser")
-            .AddScheme<XUserAuthenticationOptions, XUserAuthenticationHandler>("XUser", null);
-
-        services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
-        services.AddControllers(options => { options.Filters.Add<ValidationFilter>(); })
+           .AddScheme<XUserAuthenticationOptions, XUserAuthenticationHandler>("XUser", null);
+        
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+        services.AddControllers(options =>
+            {
+                options.Filters.Add<ValidationFilter>();
+            })
             .AddFluentValidation(fv =>
             {
                 fv.DisableDataAnnotationsValidation = true;
@@ -37,7 +44,6 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
     }
-
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ExceptionHandlerMiddleware>();
@@ -50,6 +56,9 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseAuthorization();
-        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }
