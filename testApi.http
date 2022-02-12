@@ -1,0 +1,61 @@
+### SAVE AUTHOR
+POST http://localhost:8090/api/Author HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+  "name": "string"
+}
+
+### GET AUTHORS
+GET http://localhost:8090/api/Authors/ HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+
+### SAVE AUTHOR
+POST http://localhost:8090/api/Category HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+  "name": "string"
+}
+
+### SAVE CATEGORY
+POST http://localhost:8090/api/Category HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+  "name": "string"
+}
+
+
+### GET CATEGORY
+GET http://localhost:8090/api/Categories/ HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+
+### SAVE TAG
+POST http://localhost:8090/api/TAG HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+  "name": "string"
+}
+
+
+### GET TAGS
+GET http://localhost:8090/api/TAGS/ HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
