@@ -87,7 +87,7 @@ public class BlogPostControllerTest
                 }
             }
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithLargeContent_ShouldReturnBadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -122,7 +122,7 @@ public class BlogPostControllerTest
                 }
             }
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithInvalidRequest_ShouldReturnABadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -162,7 +162,7 @@ public class BlogPostControllerTest
                 }
             }
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithExistingBlogPost_ShouldReturnABadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -195,7 +195,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/testDelete",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Delete_ExistingBlogPost_ShouldReturnAnOkResponse),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -223,7 +223,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/testDelete",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Delete_NotExistingBlogPost_ShouldReturnABadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -253,7 +253,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/testDelete",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Delete_ExistingBlogPost_WithNotAdminXUser_ShouldReturnAForbiddenResult),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -281,7 +281,7 @@ public class BlogPostControllerTest
                 imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
             }
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Edit_ExistingBlogPost_ShouldReturnAnOkResponse),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("newCategory", "music");
@@ -317,7 +317,7 @@ public class BlogPostControllerTest
                 imageUrl= "https://",
             }
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Edit_WithInvalidParameters_ShouldReturnABadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
         client.DefaultRequestHeaders.Add("X-USER", "user");
@@ -344,7 +344,7 @@ public class BlogPostControllerTest
                 imageUrl= "https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",
             }
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Edit_NotExistingBlogPost_ShouldReturnABadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
         client.DefaultRequestHeaders.Add("X-USER", "user");
@@ -371,7 +371,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/1/Category/CategoryNew",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Update_Category_Of_A_Valid_BlogPost_WithAValidCategory_ShouldReturnOk),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -404,7 +404,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/1/Category/CategoryNew",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Update_Category_Of_A_NotExisting_BlogPost_WithAValidCategory_ShouldReturnBadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -439,7 +439,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/1/Category/CategoryNew",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.Update_Category_Of_A_Valid_BlogPost_WithANotExistingCategory_ShouldReturnBadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -476,7 +476,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/1/Tags/new",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.AddTag_With_A_Valid_BlogPost_WithAExistingTag_ShouldReturnOk),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -509,7 +509,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/1/Tags/new",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.AddTag_With_A_NotExisting_BlogPost_ShouldReturnBadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -544,7 +544,7 @@ public class BlogPostControllerTest
         {
             Url = "/api/BlogPost/1/Tags/new",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.AddNotExistingTag_With_A_Existing_BlogPost_ShouldReturnBadRequest),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -572,16 +572,80 @@ public class BlogPostControllerTest
         error.Message.Should().Be("tag not found");
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
+    [Fact]
+    public async Task GetBlogPost_WithValidId_ShouldReturnTheCorrectElements()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost/1",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.GetBlogPost_WithValidId_ShouldReturnTheCorrectElements),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("Category", "music");
+        var tag = Tag.Create("test", "test");
+        var blogPostList = new List<BlogPost>();
+        var content = @"<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ";
+        for (int i = 1; i <= 30; i++)
+        {
+            blogPostList.Add(BlogPost.Create($"{i}", $"test{i}",content,"https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",author,category,new List<Tag>(){tag}));
+        }
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.Add(tag);
+        context.BlogPosts.AddRange(blogPostList);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var model = await response.Content.ReadFromJsonAsync<BlogPostResponse>();
+        await Verifier.Verify(model,TestClient.GetVerifySettings());
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
+ [Fact]
+    public async Task GetBlogPost_WithInvalidId_ShouldReturnNoContent()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPost/1",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.GetBlogPost_WithValidId_ShouldReturnTheCorrectElements),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
     
     [Fact]
-    public async Task GetTags_WithValidQueryStringParameters_ShouldReturnTheCorrectElements()
+    public async Task GetBlogPosts_WithValidQueryStringParameters_ShouldReturnTheCorrectElements()
     {
         //SETUP
         var request = new
         {
             Url = "/api/BlogPosts?category=music&tags=test",
         };
-        await using var context = TestClient.GetDbContext(nameof(this.CreateNewBlogPost_WithValidRequest_ShouldReturnTheCreatedId),out var connectionString);
+        await using var context = TestClient.GetDbContext(nameof(this.GetBlogPosts_WithValidQueryStringParameters_ShouldReturnTheCorrectElements),out var connectionString);
         await TestClient.PrepareDatabase(context);
         var author = Author.Create("test", "grande scrittore");
         var category = Category.Create("Category", "music");
@@ -616,7 +680,72 @@ public class BlogPostControllerTest
         //VERIFY
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var model = await response.Content.ReadFromJsonAsync<BlogPostPaginationResponse>();
-        await Verifier.Verify(model);
+        await Verifier.Verify(model,TestClient.GetVerifySettings());
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
+     [Fact]
+    public async Task GetBlogPosts_WithMultipleTagQueryStringParameters_ShouldReturnTheCorrectElements()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPosts?tags=test&tags=prova",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.GetBlogPosts_WithMultipleTagQueryStringParameters_ShouldReturnTheCorrectElements),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var author = Author.Create("test", "grande scrittore");
+        var category = Category.Create("Category", "music");
+        var tag = Tag.Create("test", "test");
+        var tag2 = Tag.Create("prova", "prova");
+        var blogPostList = new List<BlogPost>();
+        var content = @"<!DOCTYPE html>
+                        <html>
+                        <head>
+                        <title>Page Title</title>
+                        </head>
+                        <body>
+
+                        <h1>My First Heading</h1>
+                        <p>My first paragraph.</p>
+
+                        </body>
+                        </html>
+                        ";
+        for (int i = 1; i <= 30; i++)
+        {
+            blogPostList.Add(BlogPost.Create($"{i}", $"test{i}",content,"https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg",author,category,new List<Tag>(){tag,tag2}));
+        }
+        context.Categories.Add(category);
+        context.Authors.Add(author);
+        context.Tags.AddRange(tag,tag2);
+        context.BlogPosts.AddRange(blogPostList);
+        await context.SaveChangesAsync();
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var model = await response.Content.ReadFromJsonAsync<BlogPostPaginationResponse>();
+        await Verifier.Verify(model,TestClient.GetVerifySettings());
+        await TestClient.CheckDatabaseAndRemoveIt(context);
+    }
+    [Fact]
+    public async Task GetBlogPosts_WithNotExistingName_ShouldReturnNoContent()
+    {
+        //SETUP
+        var request = new
+        {
+            Url = "/api/BlogPosts?",
+        };
+        await using var context = TestClient.GetDbContext(nameof(this.GetBlogPosts_WithNotExistingName_ShouldReturnNoContent),out var connectionString);
+        await TestClient.PrepareDatabase(context);
+        var client = TestClient.CreateHttpClient(_testOutputHelper,connectionString);
+        client.DefaultRequestHeaders.Add("X-USER", "user");
+        //ATTEMPT
+        var response = await client.GetAsync(request.Url);
+        //VERIFY
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         await TestClient.CheckDatabaseAndRemoveIt(context);
     }
 }

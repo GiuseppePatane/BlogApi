@@ -9,5 +9,6 @@ public interface IBlogPostService
     Task UpdateCategory(string id, string categoryId);
     Task AssociateTag(string id, string tagId);
     Task DeleteBlogPost(string id);
-    Task<BlogPostPaginationResponse> GetTags(int page, int perPage, string title, string category, List<string> tags);
+    Task<BlogPostPaginationResponse?> GetBlotPosts(int page, int perPage, string title, string category, List<string> tags);
+    Task<BlogPostResponse?> GetBlotPost(string id);
 }

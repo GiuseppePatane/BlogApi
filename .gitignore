@@ -347,3 +347,7 @@ ASALocalRun/
 /test/Catalog.UnitTests/BuildReports/UnitTests
 
 .DS_Store
+
+.ionide/
+
+.vscode/

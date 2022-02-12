@@ -30,4 +30,15 @@ public class CategoryController : Controller
         var response = await _categoryService.Create(request);
         return Ok(response);
     }
+    
+    [HttpGet]
+    [Route("api/Categories")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetCategories(int page, int perPage, string name)
+    {
+        if (page == 0) page = 1;
+        if (perPage == 0) perPage = 10;
+        var result = await _categoryService.GetCategories(page, perPage, name);
+        return Ok(result);
+    }
 }

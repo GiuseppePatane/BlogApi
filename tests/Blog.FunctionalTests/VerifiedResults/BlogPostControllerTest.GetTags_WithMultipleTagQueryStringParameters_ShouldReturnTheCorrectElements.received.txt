@@ -21,6 +21,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -45,6 +46,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -69,6 +71,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -93,6 +96,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -117,6 +121,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -141,6 +146,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -165,6 +171,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -189,6 +196,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -213,6 +221,7 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     },
@@ -237,11 +246,12 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
+        prova,
         test
       ]
     }
   ],
-  TotalPages: 3,
   TotalHits: 30,
+  TotalPages: 3,
   Size: 10
 }

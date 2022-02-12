@@ -28,4 +28,9 @@ public class CategoryService : ICategoryService
         await _repository.AddAsync(author);
         return new CreateResponse(author?.Id);
     }
+
+    public Task<CategoryPaginationResponse?> GetCategories(int page, int perPage, string name)
+    {
+        return  _repository.GetCategoriesPaginate(page,perPage,name);
+    }
 }

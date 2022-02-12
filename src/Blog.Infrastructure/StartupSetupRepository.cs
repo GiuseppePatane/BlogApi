@@ -13,6 +13,5 @@ public static class StartupSetupRepository
         services.AddTransient<ICategoryRepository, CategoryEfRepository>();
         services.AddTransient<ITagRepository, TagEfRepository>();
         services.AddTransient<IBlogPostRepository, BlogPostEfRepository>();
-        services.AddTransient<IBlogPostReadOnlyRepository, BlogPostReadOnlyEfRepository>();
     }
 }

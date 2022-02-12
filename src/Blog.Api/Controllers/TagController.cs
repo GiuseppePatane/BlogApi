@@ -30,4 +30,15 @@ public class TagController : Controller
         var response = await _tagService.Create(request);
         return Ok(response);
     }
+    
+    [HttpGet]
+    [Route("api/Tags")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetTags(int page, int perPage, string name)
+    {
+        if (page == 0) page = 1;
+        if (perPage == 0) perPage = 10;
+        var result = await _tagService.GetTags(page, perPage, name);
+        return Ok(result);
+    }
 }

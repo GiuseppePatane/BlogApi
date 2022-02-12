@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using TestSupport.Helpers;
+using VerifyTests;
 using Xunit.Abstractions;
 
 namespace Blog.FunctionalTests;
@@ -98,5 +99,12 @@ internal class TestClient : WebApplicationFactory<Program>
         {
             await appDbContext.Database.EnsureDeletedAsync().ConfigureAwait(false);
         }
+    }
+
+    public static VerifySettings GetVerifySettings()
+    {
+        var settings = new VerifySettings();
+        settings.UseDirectory("VerifiedResults");
+        return settings;
     }
 }

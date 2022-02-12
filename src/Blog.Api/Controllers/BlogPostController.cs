@@ -88,12 +88,20 @@ public class BlogPostController : Controller
     [HttpGet]
     [Route("api/BlogPosts")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
-    public async Task<IActionResult> GetTag(int page, int perPage, string title, string category,
+    public async Task<IActionResult> GetBlogPosts(int page, int perPage, string title, string category,
         [FromQuery] List<string> tags)
     {
         if (page == 0) page = 1;
         if (perPage == 0) perPage = 10;
-        var result = await _blogPostService.GetTags(page, perPage, title, category, tags);
+        var result = await _blogPostService.GetBlotPosts(page, perPage, title, category, tags);
+        return Ok(result);
+    }
+    [HttpGet]
+    [Route("api/BlogPost/{id}")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetBlogPost(string id)
+    {
+        var result = await _blogPostService.GetBlotPost(id);
         return Ok(result);
     }
 }

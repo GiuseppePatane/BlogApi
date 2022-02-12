@@ -28,4 +28,9 @@ public class TagService : ITagService
         await _repository.AddAsync(author);
         return new CreateResponse(author?.Id);
     }
+
+    public Task<TagPaginationResponse?> GetTags(int page, int perPage, string name)
+    {
+        return  _repository.GetTagPaginate(page,perPage,name);
+    }
 }

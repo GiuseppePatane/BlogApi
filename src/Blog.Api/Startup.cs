@@ -47,7 +47,7 @@ public class Startup
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ExceptionHandlerMiddleware>();
-        if (env.IsDevelopment())
+        if (env.IsDevelopment() || env.IsEnvironment("Docker"))
         {
             app.UseSwagger();
             app.UseSwaggerUI();

@@ -1,0 +1,61 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP .NET Core service.
+
+version: '3.4'
+
+services:
+  postgres:
+    container_name: postgres_blog
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-root}
+      PGDATA: /data/postgres
+    command: ["postgres", "-c", "log_statement=all"]
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - blogpost-network
+    restart: unless-stopped
+    
+  seq:
+    image: datalust/seq
+    container_name: seq
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - blogpost-network
+    ports:
+      # Ingestion port
+      - "5341:5341/tcp"
+      # UI port
+      - "8888:80/tcp"
+  
+  
+  blogapi:
+    image: blogapi
+    build:
+      context: .
+      dockerfile: src/Blog.Api/Dockerfile
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      SEED: "true"
+    ports:
+      - 8090:8090
+    networks:
+      - blogpost-network
+    depends_on:
+        - postgres
+        - seq
+
+
+volumes:
+  postgres:
+    
+networks:
+  blogpost-network:
+    name: blogpost-network
+    driver: bridge

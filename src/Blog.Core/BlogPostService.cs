@@ -10,14 +10,12 @@ namespace Blog.Core;
 public class BlogPostService : IBlogPostService
 {
     private readonly IBlogPostRepository _repository;
-    private readonly IBlogPostReadOnlyRepository _blogPostReadOnlyRepository;
     private readonly IIdGenerator _idGenerator;
 
-    public BlogPostService(IBlogPostRepository repository, IIdGenerator idGenerator, IBlogPostReadOnlyRepository blogPostReadOnlyRepository)
+    public BlogPostService(IBlogPostRepository repository, IIdGenerator idGenerator)
     {
         _repository = repository;
         _idGenerator = idGenerator;
-        _blogPostReadOnlyRepository = blogPostReadOnlyRepository;
     }
 
     public async Task<CreateResponse> Create(CreateBlogPostRequest request)
@@ -73,14 +71,18 @@ public class BlogPostService : IBlogPostService
         await _repository.DeleteAsync(blogPost).ConfigureAwait(false);
     }
 
-    public async Task<BlogPostPaginationResponse> GetTags(int page, int perPage, string title, string category,
+    public  Task<BlogPostPaginationResponse?> GetBlotPosts(int page, int perPage, string title, string category,
         List<string> tags)
     {
-        var result= await  _blogPostReadOnlyRepository.GetBlogPostsPaginate(page,perPage,title,category,tags);
-        return result;
+       return  _repository.GetBlogPostsPaginate(page,perPage,title,category,tags);
     }
 
-    
+    public Task<BlogPostResponse?> GetBlotPost(string id)
+    {
+        return _repository.GetBlogPosts(id);
+    }
+
+
     private async Task<List<Tag>?> GetTags(List<string> requestTags)
     {
         var tags =await _repository.ListAsync<Tag>(x => requestTags.Contains(x.Id));
