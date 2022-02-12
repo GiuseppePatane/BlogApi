@@ -52,7 +52,7 @@ This project contains the crud API for creating and retrieving a post of a hypot
    + an instance of PostgresSql
    + an instance of [seq](https://datalust.co/seq) to see the application log 
 
-6. for test the apis you may use  the file `testApi.http` with visual studio code  and the  [rest client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+6. for test the apis you may use  the file `testApi.http` with visual studio code  and the  [rest client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
    > N.B the first run will create the database with some test data
 
 7. to see the Swagger go to http://localhost:8090/index.html
