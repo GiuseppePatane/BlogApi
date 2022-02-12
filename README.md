@@ -53,7 +53,9 @@ This project contains the crud api for create and retrieve a post of a hypotheti
 6. for test the apis  you may use  the file `testApi.http` with visual studio code  and the  [rest client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 
 7. For see the Swagger go to http://localhost:8090/swagger/index.html
+8. For see the application logs go to [seq](https://datalust.co/seq) http://localhost:8888/#/events
 
 ## Code coverage 
 The code coverage is  93% 
+
 <img width="579" alt="image" src="https://user-images.githubusercontent.com/13527363/153725081-a826c7c7-b9ac-4726-aeed-c07535eb7dc0.png">
