@@ -55,7 +55,7 @@ This project contains the crud API for creating and retrieving a post of a hypot
 6. for test the apis you may use  the file `testApi.http` with visual studio code  and the  [rest client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client
    > N.B the first run will create the database with some test data
 
-7. to see the Swagger go to http://localhost:8090/swagger/index.html
+7. to see the Swagger go to http://localhost:8090/index.html
 8. to see the application logs go to seq at http://localhost:8888/#/events
 
 ## Code coverage 
