@@ -24,7 +24,7 @@ public class AuthorController : Controller
     /// <returns></returns>
     [HttpPost]
     [Route("api/Author")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(CreateResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),400)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
@@ -44,7 +44,7 @@ public class AuthorController : Controller
     /// <returns></returns>
     [HttpGet]
     [Route("api/Authors")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(AuthorPaginationResponse), 200)]
     [ProducesResponseType( 204)]
     [ProducesResponseType(typeof(ErrorResponse),500)]

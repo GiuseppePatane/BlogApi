@@ -42,6 +42,7 @@
     }
   ],
   TotalHits: 30,
+  Page: 1,
   TotalPages: 3,
   Size: 10
 }

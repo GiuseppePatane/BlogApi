@@ -23,7 +23,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpPost]
     [Route("api/BlogPost")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(CreateResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),400)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
@@ -41,7 +41,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(ErrorResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),400)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
@@ -59,7 +59,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}/Category/{categoryId}")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(ErrorResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),400)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
@@ -78,7 +78,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}/Tags/{tagId}")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(ErrorResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),400)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
@@ -96,7 +96,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpDelete]
     [Route("api/BlogPost/{id}")]
-    [XUserAuthorizationFilter(AuthConst.AdminRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.AdminRole})]
     [ProducesResponseType(typeof(ErrorResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),400)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
@@ -117,7 +117,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpGet]
     [Route("api/BlogPosts")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(BlogPostPaginationResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> GetBlogPosts(int page, int perPage, string title, string category,
@@ -136,7 +136,7 @@ public class BlogPostController : Controller
     /// <returns></returns>
     [HttpGet]
     [Route("api/BlogPost/{id}")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     [ProducesResponseType(typeof(BlogPostResponse), 200)]
     [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> GetBlogPost(string id)

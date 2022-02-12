@@ -31,6 +31,7 @@ public class AuthorEfRepository : EfRepository, IAuthorRepository
         var result= new AuthorPaginationResponse()
         {
             Items = await PaginationHelper.GetItemsAsync(skip,perPage,queryResult),
+            Page=page,
             TotalHits = await queryResult.CountAsync(),
             Size = perPage,
             TotalPages = await PaginationHelper.CountAsync(perPage, queryResult)

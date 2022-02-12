@@ -18,7 +18,7 @@ public class CategoryEfRepository : EfRepository, ICategoryRepository
 
     public async Task<CategoryPaginationResponse?> GetCategoriesPaginate(int page, int perPage, string name)
     {
-        var resultQuery=  DbContext.Categories
+        var queryResult=  DbContext.Categories
             .Where(x=>string.IsNullOrWhiteSpace(name)|| x.Name.Contains(name))
             .OrderBy(x=>x.CreationDateUtc)
             .Select(x => new CategoryResponse()
@@ -30,10 +30,11 @@ public class CategoryEfRepository : EfRepository, ICategoryRepository
         var skip = PaginationHelper.Skip(page, perPage);
         var result= new CategoryPaginationResponse()
         {
-            Items = await PaginationHelper.GetItemsAsync(skip,perPage,resultQuery),
-            TotalHits = await resultQuery.CountAsync(),
+            Items = await PaginationHelper.GetItemsAsync(skip,perPage,queryResult),
+            Page=page,
+            TotalHits = await queryResult.CountAsync(),
             Size = perPage,
-            TotalPages = await PaginationHelper.CountAsync(perPage, resultQuery)
+            TotalPages = await PaginationHelper.CountAsync(perPage, queryResult)
         };
         return result.Items.Any() ? result : null;
     }

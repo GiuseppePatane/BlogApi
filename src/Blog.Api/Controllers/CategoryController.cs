@@ -27,7 +27,7 @@ public class CategoryController : Controller
     [ProducesResponseType(typeof(ErrorResponse),500)]
     [HttpPost]
     [Route("api/Category")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     public async Task<IActionResult> CreateCategory(CreateCategoryRequest request)
     {
         var response = await _categoryService.Create(request);
@@ -43,7 +43,7 @@ public class CategoryController : Controller
     /// <returns></returns>
     [HttpGet]
     [Route("api/Categories")]
-    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [XUserAuthorizationFilter(new []{AuthConst.UserRole,AuthConst.AdminRole})]
     public async Task<IActionResult> GetCategories(int page, int perPage, string name)
     {
         if (page == 0) page = 1;
