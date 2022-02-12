@@ -26,7 +26,7 @@ This project contains the crud api for create and retrieve a post of a hypotheti
 
 2) test folder contains the libraries for testing the application code behavior 
    + **BlogPost.UnitTest**:  project for testing the domain logic 
-   + **BlogPost.IntegrationTests**: project for testing to test the interaction between the domain logic and the database
+   + **BlogPost.IntegrationTests**: project for testing the interaction between the domain logic and the database
    + **BlogPost.FunctionalTest** project for testing the web api. It's start a test web server and a test db.
 
           
