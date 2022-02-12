@@ -12,7 +12,7 @@ This project contains the crud api for create and retrieve a post of a hypotheti
 + Language: C#
 + Web Framework: [net core Web Api](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0)
 + ORM: [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
-+ Database: Postgres
++ Database: PostgresSql
 
 
 ## Project structure
@@ -48,12 +48,15 @@ This project contains the crud api for create and retrieve a post of a hypotheti
 
 4. ` cd BlogApi/`
 
-5. run  `docker compose  -f docker-compose.yml up`
+5. run  `docker compose  -f docker-compose.yml up` for starting the application and:
+   + an instance of PostgresSql
+   + an instance of [seq](https://datalust.co/seq) for see the application log 
 
-6. for test the apis  you may use  the file `testApi.http` with visual studio code  and the  [rest client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+6. for test the apis you may use  the file `testApi.http` with visual studio code  and the  [rest client extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+   > N.B the first run will create the database with some test data
 
 7. For see the Swagger go to http://localhost:8090/swagger/index.html
-8. For see the application logs go to [seq](https://datalust.co/seq) http://localhost:8888/#/events
+8. For see the application logs go to seq at http://localhost:8888/#/events
 
 ## Code coverage 
 The code coverage is  93% 
