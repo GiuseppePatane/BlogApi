@@ -18,6 +18,20 @@ services:
     networks:
       - blogpost-network
     restart: unless-stopped
+    
+  seq:
+    image: datalust/seq
+    container_name: seq
+    restart: unless-stopped
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - blogpost-network
+    ports:
+      # Ingestion port
+      - "5341:5341/tcp"
+      # UI port
+      - "8888:80/tcp"
   
   
   blogapi:
@@ -25,12 +39,17 @@ services:
     build:
       context: .
       dockerfile: src/Blog.Api/Dockerfile
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Docker"
+      SEED: "true"
     ports:
       - 8090:8090
     networks:
       - blogpost-network
     depends_on:
         - postgres
+        - seq
 
 
 volumes:

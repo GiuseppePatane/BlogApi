@@ -49,6 +49,7 @@ public class BlogPostEfRepository : EfRepository, IBlogPostRepository
         var result= new BlogPostPaginationResponse()
         {
             Items = await PaginationHelper.GetItemsAsync(skip,perPage,queryResult),
+            Page=page,
             TotalHits = await queryResult.CountAsync(),
             Size = perPage,
             TotalPages = await PaginationHelper.CountAsync(perPage, queryResult)

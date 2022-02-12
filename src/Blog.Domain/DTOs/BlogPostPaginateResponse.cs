@@ -4,7 +4,7 @@ namespace Blog.Domain.DTOs;
 public class PaginationResponse
 {
     public long TotalHits { get; set; }
-    public int From { get; set; }
+    public int Page { get; set; }
     public int TotalPages { get; set; }
     public int Size { get; set; }
 }
