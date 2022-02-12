@@ -8,7 +8,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -20,7 +19,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -32,7 +30,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -44,7 +41,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -56,7 +52,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -68,7 +63,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -80,7 +74,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -92,7 +85,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -104,7 +96,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     },
@@ -116,7 +107,6 @@
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
-        prova,
         test
       ]
     }
