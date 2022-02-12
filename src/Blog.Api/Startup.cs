@@ -1,3 +1,4 @@
+using System.Reflection;
 using Blog.Api.Auth;
 using Blog.Api.Filters;
 using Blog.Api.Middleware;
@@ -6,6 +7,7 @@ using Blog.Infrastructure.Validator.FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 public class Startup
 {
@@ -42,15 +44,26 @@ public class Startup
             });
 
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(options =>
+        {
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
     }
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseMiddleware<ExceptionHandlerMiddleware>();
         if (env.IsDevelopment() || env.IsEnvironment("Docker"))
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwagger(options =>
+            {
+                options.SerializeAsV2 = true;
+            });
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                options.RoutePrefix = string.Empty;
+            });
         }
         
         app.UseRouting();

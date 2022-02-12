@@ -17,13 +17,16 @@ public class BlogPostController : Controller
     }
 
     /// <summary>
-    /// Create a new blog post 
+    /// Create a new blog post
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpPost]
     [Route("api/BlogPost")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [ProducesResponseType(typeof(CreateResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),400)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> CreateBlogPost(CreateBlogPostRequest request)
     {
         var response = await _blogPostService.Create(request);
@@ -39,6 +42,9 @@ public class BlogPostController : Controller
     [HttpPatch]
     [Route("api/BlogPost/{id}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [ProducesResponseType(typeof(ErrorResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),400)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> UpdateBlogPost(string id, UpdateBlogPostRequest request)
     {
         await _blogPostService.Update(id, request);
@@ -46,29 +52,36 @@ public class BlogPostController : Controller
     }
 
     /// <summary>
-    /// Update blog Post category
+    /// Update blog post category id 
     /// </summary>
     /// <param name="id"> blog post id </param>
-    /// <param name="request"></param>
+    /// <param name="categoryId"> the new category id</param>
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}/Category/{categoryId}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [ProducesResponseType(typeof(ErrorResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),400)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> UpdateCategory(string id, string categoryId)
     {
         await _blogPostService.UpdateCategory(id, categoryId);
         return Ok(new ErrorResponse());
     }
 
+
     /// <summary>
-    /// Update blog Post category
+    ///  Add a new tag to a blog post
     /// </summary>
-    /// <param name="id"> blog post id </param>
-    /// <param name="request"></param>
+    /// <param name="id">blog post id </param>
+    /// <param name="tagId"> the new tag id</param>
     /// <returns></returns>
     [HttpPatch]
     [Route("api/BlogPost/{id}/Tags/{tagId}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [ProducesResponseType(typeof(ErrorResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),400)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> AddNewTag(string id, string tagId)
     {
         await _blogPostService.AssociateTag(id, tagId);
@@ -76,18 +89,37 @@ public class BlogPostController : Controller
     }
 
 
+    /// <summary>
+    /// Delete a blog post 
+    /// </summary>
+    /// <param name="id">the blogPostId to delete </param>
+    /// <returns></returns>
     [HttpDelete]
     [Route("api/BlogPost/{id}")]
     [XUserAuthorizationFilter(AuthConst.AdminRole)]
-    public async Task<IActionResult> DeleteBlogPost(string id, string tagId)
+    [ProducesResponseType(typeof(ErrorResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),400)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
+    public async Task<IActionResult> DeleteBlogPost(string id)
     {
         await _blogPostService.DeleteBlogPost(id);
         return Ok(new ErrorResponse());
     }
 
+    /// <summary>
+    /// Get paginate list of blog post
+    /// </summary>
+    /// <param name="page">the request page</param>
+    /// <param name="perPage"> number of element per page</param>
+    /// <param name="title"> blog title thant you want search</param>
+    /// <param name="category">blog category </param>
+    /// <param name="tags"> search for the list associated tags </param>
+    /// <returns></returns>
     [HttpGet]
     [Route("api/BlogPosts")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [ProducesResponseType(typeof(BlogPostPaginationResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> GetBlogPosts(int page, int perPage, string title, string category,
         [FromQuery] List<string> tags)
     {
@@ -96,9 +128,17 @@ public class BlogPostController : Controller
         var result = await _blogPostService.GetBlotPosts(page, perPage, title, category, tags);
         return Ok(result);
     }
+    
+    /// <summary>
+    /// Get a blogPost by id 
+    /// </summary>
+    /// <param name="id">the blog post id </param>
+    /// <returns></returns>
     [HttpGet]
     [Route("api/BlogPost/{id}")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
+    [ProducesResponseType(typeof(BlogPostResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     public async Task<IActionResult> GetBlogPost(string id)
     {
         var result = await _blogPostService.GetBlotPost(id);

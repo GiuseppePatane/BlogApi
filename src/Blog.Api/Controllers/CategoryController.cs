@@ -18,10 +18,13 @@ public class CategoryController : Controller
     }
 
     /// <summary>
-    /// Create a new author 
+    /// Create a new category 
     /// </summary>
     /// <param name="request"></param>
-    /// <returns></returns>
+    /// <returns></returns>+
+    [ProducesResponseType(typeof(CreateResponse), 200)]
+    [ProducesResponseType(typeof(ErrorResponse),400)]
+    [ProducesResponseType(typeof(ErrorResponse),500)]
     [HttpPost]
     [Route("api/Category")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]
@@ -31,6 +34,13 @@ public class CategoryController : Controller
         return Ok(response);
     }
     
+    /// <summary>
+    /// Get a paginate list of categories
+    /// </summary>
+    /// <param name="page">requested page </param>
+    /// <param name="perPage"> items per page </param>
+    /// <param name="name"> category name you want to search for</param>
+    /// <returns></returns>
     [HttpGet]
     [Route("api/Categories")]
     [XUserAuthorizationFilter(AuthConst.UserRole)]

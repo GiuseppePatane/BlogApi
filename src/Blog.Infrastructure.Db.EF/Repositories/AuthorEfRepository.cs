@@ -13,7 +13,7 @@ public class AuthorEfRepository : EfRepository, IAuthorRepository
 
     public Task<bool> GetByNameAsync(string title)
     {
-        return DbContext.Authors.AnyAsync(x => x.Name != null && x.Name.Trim().Equals(title.Trim()));
+        return DbContext.Authors.AnyAsync(x => x.Name.Trim().Equals(title.Trim()));
     }
 
     public async Task<AuthorPaginationResponse?> GetAuthorsPaginate(int page, int perPage, string name)

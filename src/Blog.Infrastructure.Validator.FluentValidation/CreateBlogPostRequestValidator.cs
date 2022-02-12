@@ -9,6 +9,7 @@ public class CreateBlogPostRequestValidator : AbstractValidator<CreateBlogPostRe
     public CreateBlogPostRequestValidator()
     {
         RuleFor(x => x.Title).NotNull().NotEmpty().WithMessage("Title cannot be null or empty");
+        RuleFor(x => x.Title).MaximumLength(255).WithMessage("Invalid title length, max 255 characters");
         RuleFor(x => x.Content).NotNull().NotEmpty().WithMessage("Content cannot be null or empty");
         RuleFor(x => x.Content).MaximumLength(1024).WithMessage("Invalid Content length, max 1024 characters");
         RuleFor(x => x.ImageUrl).NotNull().NotEmpty().WithMessage("ImageUrl cannot be null or empty");
@@ -23,7 +24,7 @@ public class UpdateBlogPostRequestValidator : AbstractValidator<UpdateBlogPostRe
 {
     public UpdateBlogPostRequestValidator()
     {
-
+        RuleFor(x => x.Title).MaximumLength(255).WithMessage("Invalid title length, max 255 characters");
         RuleFor(x => x.Content).MaximumLength(1024).WithMessage("Invalid Content length, max 1024 characters");
         RuleFor(x => x.ImageUrl).Must(ValidationsHelper.IsFile).WithMessage("Invalid image url format");
       
