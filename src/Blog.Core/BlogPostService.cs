@@ -77,7 +77,12 @@ public class BlogPostService : IBlogPostService
        return  _repository.GetBlogPostsPaginate(page,perPage,title,category,tags);
     }
 
-    
+    public Task<BlogPostResponse?> GetBlotPost(string id)
+    {
+        return _repository.GetBlogPosts(id);
+    }
+
+
     private async Task<List<Tag>?> GetTags(List<string> requestTags)
     {
         var tags =await _repository.ListAsync<Tag>(x => requestTags.Contains(x.Id));

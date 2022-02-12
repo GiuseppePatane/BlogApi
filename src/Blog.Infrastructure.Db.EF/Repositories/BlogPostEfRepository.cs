@@ -1,5 +1,6 @@
 using Blog.Domain.DTOs;
 using Blog.Domain.Entities;
+using Blog.Domain.Extensions;
 using Blog.Domain.Interfaces.Repositories;
 using Blog.Infrastructure.Db.EF.Helpers;
 using Microsoft.EntityFrameworkCore;
@@ -37,7 +38,7 @@ public class BlogPostEfRepository : EfRepository, IBlogPostRepository
             {
                 BlogPostId = x.Id ?? string.Empty,
                 Title = x.Title ?? string.Empty,
-                Content = x.Content ?? string.Empty,
+                Content = x.Content.TrimAndTruncateHtml(150,"...")??string.Empty,
                 Image = x.Image ?? string.Empty,
                 AuthorName = x.Author.Name ?? string.Empty,
                 CategoryName = x.Category.Name ?? string.Empty,
@@ -55,6 +56,27 @@ public class BlogPostEfRepository : EfRepository, IBlogPostRepository
         return result.Items.Any() ? result : null;
     }
 
-    
+    public async Task<BlogPostResponse?> GetBlogPosts(string id)
+    {
+        var queryResult = await DbContext.BlogPosts
+            .Include(x => x.Author)
+            .Include(x => x.Category)
+            .Include(x => x.TagXBlogPosts).ThenInclude(x => x.Tag)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        return queryResult==null  
+            ? null
+            : new BlogPostResponse()
+        {
+            BlogPostId = queryResult?.Id ?? string.Empty,
+            Title = queryResult?.Title ?? string.Empty,
+            Content = queryResult?.Content ?? string.Empty,
+            Image = queryResult?.Image ?? string.Empty,
+            AuthorName = queryResult?.Author.Name ?? string.Empty,
+            CategoryName = queryResult?.Category.Name ?? string.Empty,
+            Tags = queryResult?.TagXBlogPosts.Select(x => x.Tag.Name).ToList()
+        };
+
+    }
 }
 

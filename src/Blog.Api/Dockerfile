@@ -1,18 +1,20 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:6.0-focal AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8090
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+ENV ASPNETCORE_URLS=http://+:8090
+
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 WORKDIR /src
-COPY ["src/Blog.Api/Blog.Api.csproj", "Blog.Api/"]
+COPY ["src/Blog.Api/Blog.Api.csproj", "src/Blog.Api/"]
 RUN dotnet restore "src/Blog.Api/Blog.Api.csproj"
 COPY . .
-WORKDIR "/src/Blog.Api"
+WORKDIR "/src/src/Blog.Api"
 RUN dotnet build "Blog.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Blog.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "Blog.Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

@@ -96,4 +96,12 @@ public class BlogPostController : Controller
         var result = await _blogPostService.GetBlotPosts(page, perPage, title, category, tags);
         return Ok(result);
     }
+    [HttpGet]
+    [Route("api/BlogPost/{id}")]
+    [XUserAuthorizationFilter(AuthConst.UserRole)]
+    public async Task<IActionResult> GetBlogPost(string id)
+    {
+        var result = await _blogPostService.GetBlotPost(id);
+        return Ok(result);
+    }
 }

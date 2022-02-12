@@ -10,4 +10,5 @@ public interface IBlogPostService
     Task AssociateTag(string id, string tagId);
     Task DeleteBlogPost(string id);
     Task<BlogPostPaginationResponse?> GetBlotPosts(int page, int perPage, string title, string category, List<string> tags);
+    Task<BlogPostResponse?> GetBlotPost(string id);
 }
