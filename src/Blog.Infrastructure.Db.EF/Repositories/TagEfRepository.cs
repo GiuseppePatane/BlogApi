@@ -18,7 +18,7 @@ public class TagEfRepository : EfRepository, ITagRepository
 
     public async Task<TagPaginationResponse?> GetTagPaginate(int page, int perPage, string name)
     {
-        var resultQuery=  DbContext.Tags
+        var queryResult=  DbContext.Tags
             .Where(x=>string.IsNullOrWhiteSpace(name)|| x.Name.Contains(name))
             .OrderBy(x=>x.CreationDateUtc)
             .Select(x => new TagResponse()
@@ -30,10 +30,11 @@ public class TagEfRepository : EfRepository, ITagRepository
         var skip = PaginationHelper.Skip(page, perPage);
         var result= new TagPaginationResponse()
         {
-            Items = await PaginationHelper.GetItemsAsync(skip,perPage,resultQuery),
-            TotalHits = await resultQuery.CountAsync(),
+            Items = await PaginationHelper.GetItemsAsync(skip,perPage,queryResult),
+            Page=page,
+            TotalHits = await queryResult.CountAsync(),
             Size = perPage,
-            TotalPages = await PaginationHelper.CountAsync(perPage, resultQuery)
+            TotalPages = await PaginationHelper.CountAsync(perPage, queryResult)
         };
         return result.Items.Any() ? result : null;
     }

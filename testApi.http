@@ -1,11 +1,11 @@
-### SAVE AUTHOR
+### CREATE NEW AUTHOR
 POST http://localhost:8090/api/Author HTTP/1.1
 X-User: user
 User-Agent: rest-client
 Content-Type: application/json
 
 {
-  "name": "string"
+  "name": "new author "
 }
 
 ### GET AUTHORS
@@ -15,47 +15,94 @@ User-Agent: rest-client
 Content-Type: application/json
 
 
-### SAVE AUTHOR
+### CREATE NEW CATEGORY
 POST http://localhost:8090/api/Category HTTP/1.1
 X-User: user
 User-Agent: rest-client
 Content-Type: application/json
 
 {
-  "name": "string"
-}
-
-### SAVE CATEGORY
-POST http://localhost:8090/api/Category HTTP/1.1
-X-User: user
-User-Agent: rest-client
-Content-Type: application/json
-
-{
-  "name": "string"
+  "name": "programming"
 }
 
 
-### GET CATEGORY
+### GET CATEGORIES
 GET http://localhost:8090/api/Categories/ HTTP/1.1
 X-User: user
 User-Agent: rest-client
 Content-Type: application/json
 
 
-### SAVE TAG
-POST http://localhost:8090/api/TAG HTTP/1.1
+### CREATE NEW TAG
+POST http://localhost:8090/api/Tag HTTP/1.1
 X-User: user
 User-Agent: rest-client
 Content-Type: application/json
 
 {
-  "name": "string"
+  "name": "java"
 }
 
-
 ### GET TAGS
-GET http://localhost:8090/api/TAGS/ HTTP/1.1
+GET http://localhost:8090/api/Tags/ HTTP/1.1
 X-User: user
 User-Agent: rest-client
 Content-Type: application/json
+
+###  CREATE NEW BLOGPOST
+
+POST http://localhost:8090/api/BlogPost HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+  "title": "string",
+  "content": "string",
+  "imageUrl": "http://cnd.com/image.jpg",
+  "authorId": "author1",
+  "categoryId": "8e7e8bfa-fa58-4850-af1e-481bd376176d",
+  "tags": [
+    "3fbc91ff-43b7-49ed-842b-e3901c00d528"
+  ]
+}
+### UPDATE BLOG POST INFORMATION 
+PATCH http://localhost:8090/api/BlogPost/{{id}}} HTTP/1.1
+X-User: user
+User-Agent: rest-client
+Content-Type: application/json
+
+{
+  "title": " Lorem Ipsum has been the industry's standard dummy",
+  "content": "s simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+  "imageUrl": "http://cnd.com/image2.jpg"
+}
+### UPDATE BLOG POST Category 
+PATCH http://localhost:8090/api/BlogPost/{{id}}/Category/{{categoryId}}'
+X-User: user
+User-Agent: rest-client
+
+### ASSOCIATE NEW TAG TO A BLOG POST  
+PATCH http://localhost:8090/api/BlogPost/{{id}}/Tags/{{tagId}}}}'
+X-User: user
+User-Agent: rest-client
+
+### DELETE BLOG POST 
+DELETE http://localhost:8090/api/BlogPost/{{id}} HTTP/1.1
+X-User: admin
+User-Agent: rest-client
+
+### GET PAGINATE LIST OF BLOG POST  
+GET http://localhost:8090/api/BlogPosts
+X-User: user
+User-Agent: rest-client
+
+###  GET PAGINATE LIST OF BLOG POST WITH QUERY STRING PARAMETER |?page={page}&perPage={perPAge}&title={blog Title}&category={category name}&tags=tag1&tags=tag2''
+GET http://localhost:8090/api/BlogPosts?page=1&perPage=10&title={blog Title}&category={category name}&tags=tag1&tags=tag2
+X-User: user
+User-Agent: rest-client
+
+### GET  BLOGPOST BY ID
+GET http://localhost:8090/api/BlogPost/{{id}}
+X-User: user
+User-Agent: rest-client

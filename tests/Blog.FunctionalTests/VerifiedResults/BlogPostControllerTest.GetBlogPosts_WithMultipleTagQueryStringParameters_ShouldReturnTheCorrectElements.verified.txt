@@ -4,7 +4,7 @@
       BlogPostId: 1,
       Title: test1,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -16,7 +16,7 @@
       BlogPostId: 2,
       Title: test2,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -28,7 +28,7 @@
       BlogPostId: 3,
       Title: test3,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -40,7 +40,7 @@
       BlogPostId: 4,
       Title: test4,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -52,7 +52,7 @@
       BlogPostId: 5,
       Title: test5,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -64,7 +64,7 @@
       BlogPostId: 6,
       Title: test6,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -76,7 +76,7 @@
       BlogPostId: 7,
       Title: test7,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -88,7 +88,7 @@
       BlogPostId: 8,
       Title: test8,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -100,7 +100,7 @@
       BlogPostId: 9,
       Title: test9,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [
@@ -112,7 +112,7 @@
       BlogPostId: 10,
       Title: test10,
       Content:  Page Title My First Heading My first paragraph...,
-      Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+      ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
       AuthorName: grande scrittore,
       CategoryName: music,
       Tags: [

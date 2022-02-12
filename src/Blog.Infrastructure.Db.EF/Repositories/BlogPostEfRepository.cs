@@ -39,7 +39,7 @@ public class BlogPostEfRepository : EfRepository, IBlogPostRepository
                 BlogPostId = x.Id ?? string.Empty,
                 Title = x.Title ?? string.Empty,
                 Content = x.Content.TrimAndTruncateHtml(150,"...")??string.Empty,
-                Image = x.Image ?? string.Empty,
+                ImageUrl = x.Image ?? string.Empty,
                 AuthorName = x.Author.Name ?? string.Empty,
                 CategoryName = x.Category.Name ?? string.Empty,
                 Tags = x.TagXBlogPosts.Select(x=>x.Tag.Name).ToList()
@@ -72,7 +72,7 @@ public class BlogPostEfRepository : EfRepository, IBlogPostRepository
             BlogPostId = queryResult?.Id ?? string.Empty,
             Title = queryResult?.Title ?? string.Empty,
             Content = queryResult?.Content ?? string.Empty,
-            Image = queryResult?.Image ?? string.Empty,
+            ImageUrl = queryResult?.Image ?? string.Empty,
             AuthorName = queryResult?.Author.Name ?? string.Empty,
             CategoryName = queryResult?.Category.Name ?? string.Empty,
             Tags = queryResult?.TagXBlogPosts.Select(x => x.Tag.Name).ToList()

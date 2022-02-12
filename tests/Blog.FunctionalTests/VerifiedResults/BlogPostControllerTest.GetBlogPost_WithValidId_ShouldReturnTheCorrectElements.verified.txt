@@ -15,7 +15,7 @@
                         </body>
                         </html>
                         ,
-  Image: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
+  ImageUrl: https://images.agi.it/pictures/agi/agi/2021/11/15/143214429-dd3e4ea6-2844-48b3-a099-a917bbb27d52.jpg,
   AuthorName: grande scrittore,
   CategoryName: music,
   Tags: [

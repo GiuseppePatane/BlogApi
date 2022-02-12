@@ -7,9 +7,9 @@ namespace Blog.Api.Filters;
 
 public class XUserAuthorizationFilterAttribute : Attribute, IAuthorizationFilter
 {
-    private readonly string _userType; 
+    private readonly string[] _userType; 
 
-    public XUserAuthorizationFilterAttribute(string usersType)
+    public XUserAuthorizationFilterAttribute(string[] usersType)
     {
         _userType = usersType;
     }
@@ -20,7 +20,7 @@ public class XUserAuthorizationFilterAttribute : Attribute, IAuthorizationFilter
         {
             context.Result = new UnauthorizedResult();
         }
-        else if (!_userType.Equals(userType.ToString(), StringComparison.InvariantCultureIgnoreCase))
+        else if (!_userType.Contains(userType.ToString()))
         {
             context.Result = new ForbidResult();
         }
