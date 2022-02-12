@@ -6,7 +6,7 @@ This project contains the crud api for create and retrieve a post of a hypotheti
 + **Author**: create the blog post. An author can create more that one  blog posts.
 + **Category**: The blog post category( programming, news ecc.). A Blog post can have only one category.
 + **Tag**: a Key for group the blog posts. For example group all posts that talk about java.A Blog post can have more that one tag that and one tag  can be in more that one blog post.
-+ **Blogpost**: The main entity, handle the blog post content, title, content, image ecc
++ **Blogpost**: The main entity, handle the blog post title, content, image ecc
 
 ## Stack 
 + Language: C#
