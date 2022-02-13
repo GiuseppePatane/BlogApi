@@ -59,7 +59,7 @@ Content-Type: application/json
 {
   "title": "java blog post",
   "content": "string",
-  "imageUrl": "http://cnd.com/image.jpg",
+  "imageUrl": "http://cdn.com/image.jpg",
   "authorId": "author1",
   "categoryId": "category1",
   "tags": [
