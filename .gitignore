@@ -351,3 +351,5 @@ ASALocalRun/
 .ionide/
 
 .vscode/
+
+.coverage-report/

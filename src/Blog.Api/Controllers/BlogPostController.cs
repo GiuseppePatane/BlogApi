@@ -17,7 +17,7 @@ public class BlogPostController : Controller
     }
 
     /// <summary>
-    /// Create a new blog post
+    /// Create a new blog post.
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -107,10 +107,11 @@ public class BlogPostController : Controller
     }
 
     /// <summary>
-    /// Get paginate list of blog post
+    /// Get paginate list of blog post.
+    /// Content will be shown abbreviation followed by three dots if the length is greater than 150 characters.
     /// </summary>
-    /// <param name="page">the request page</param>
-    /// <param name="perPage"> number of element per page</param>
+    /// <param name="page">the request page.Default 1</param>
+    /// <param name="perPage"> number of element per page. Default 10</param>
     /// <param name="title"> blog title thant you want search</param>
     /// <param name="category">blog category </param>
     /// <param name="tags"> search for the list associated tags </param>

@@ -37,8 +37,8 @@ public class TagController : Controller
     /// <summary>
     /// Get a paginate list of tags
     /// </summary>
-    /// <param name="page">requested page </param>
-    /// <param name="perPage"> items per page </param>
+    /// <param name="page">the request page.Default 1</param>
+    /// <param name="perPage"> number of element per page. Default 10</param>
     /// <param name="name"> tag name you want to search for</param>
     /// <returns></returns>
     [HttpGet]
