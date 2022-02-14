@@ -5,7 +5,7 @@ This project contains the crud API for creating and retrieving a post of a hypot
 ### Database structure
 + **Author**: create the blog post. An author can create more than one blog post.
 + **Category**: the blog post category( programming, news etc.). A blog post can have only one category.
-+ **Tag**:  key for group the blog posts. For example group all posts that talk about java. A blog post can have more than one tag that and one tag can be in more than one blog post.
++ **Tag**:  key for group the blog posts. For example group all posts that talk about java. A blog post can have more than one tag and one tag can be in more than one blog post.
 + **Blogpost**: the main entity, handle the blog post title, content, image etc.
 
 ## Stack 
