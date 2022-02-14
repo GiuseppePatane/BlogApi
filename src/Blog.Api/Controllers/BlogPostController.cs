@@ -18,6 +18,9 @@ public class BlogPostController : Controller
 
     /// <summary>
     /// Create a new blog post.
+    /// The url image must correspond to a valid path of a hypothetical cnd.ex http://mycdn.com/image.jpg
+    /// Max title lenght 255
+    /// Max content lenght 1024.
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -34,7 +37,10 @@ public class BlogPostController : Controller
     }
 
     /// <summary>
-    /// update blog post  information
+    /// Update blog post  information
+    /// The url image must correspond to a valid path of a hypothetical cnd.ex http://mycdn.com/image.jpg
+    /// Max title lenght 255
+    /// Max content lenght 1024
     /// </summary>
     /// <param name="id"> blog post id </param>
     /// <param name="request"></param>
