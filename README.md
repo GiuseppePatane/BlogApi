@@ -39,7 +39,7 @@ This project contains the crud API for creating and retrieving a post of a hypot
 
 1. Clone or download this repository to local machine.
 
-   ` git clone https://github.com/GiuseppePatane/PokemonTranslator.git`
+   ` git clone https://github.com/GiuseppePatane/BlogApi.git`
 
 2. Install [.NET 6 SDK for your platform](https://www.microsoft.com/net/core#windowscmd) if didn't install yet.
 3. Go to the project folder:` cd BlogApi`
