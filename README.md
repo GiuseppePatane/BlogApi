@@ -44,13 +44,13 @@ This project contains the crud API for creating and retrieving a post of a hypot
 2. Install [.NET 6 SDK for your platform](https://www.microsoft.com/net/core#windowscmd) if didn't install yet.
 3. Go to the project folder:` cd BlogApi`
 4. Run `dotnet restore BlogApi.sln`
-5. Start the postgres instance with `docker-compose -f docker-compose.yml up  postgres` -d
+5. Start the postgres instance with `docker-compose -f docker-compose.yml up  postgres -d` 
 6. Install the Report Generator as a global tool with `dotnet tool install --global dotnet-reportgenerator-globaltool`
 7. Generate the xml coverage report with `dotnet test --collect:"XPlat Code Coverage" --results-directory:"./.coverage"`
 8. Generate the html report  with `reportgenerator "-reports:.coverage/**/*.cobertura.xml" "-targetdir:.coverage-report/" "-reporttypes:HTML;"`
 9. Open the file `.coverage-report/index.html` for see the full report.
 
-
+> For zsh if reportgenerator comand not found, you'll need to modify your .zshrc manually to append ~/.dotnet/tools to PATH
 
 ## Run  docker container:
 
