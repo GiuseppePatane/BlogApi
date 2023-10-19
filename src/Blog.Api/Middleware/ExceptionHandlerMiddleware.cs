@@ -54,6 +54,8 @@ public class ExceptionHandlerMiddleware
         response.Error.Errors.Add(new ErrorElement(){Code = "InternalServerErrorKey",Message = "Internal server error"});
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = 500;
+        
+
         _logger.LogError(exception, $"Error from {GetType().Namespace}. Status code: { context.Response.StatusCode}",context.Response.StatusCode,context.Request?.Headers["X-Correlation-ID"]);
         return context.Response.WriteAsync(JsonSerializer.Serialize(response.Error));
     }
