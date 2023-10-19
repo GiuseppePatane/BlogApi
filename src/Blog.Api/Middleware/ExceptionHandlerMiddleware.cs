@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Web;
 using Blog.Domain.DTOs;
 using Blog.Domain.Exceptions;
 using ValidationException = Blog.Domain.Exceptions.ValidationException;
@@ -55,7 +56,8 @@ public class ExceptionHandlerMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = 500;
         
-        _logger.LogError(exception, $"Error from {GetType().Namespace}. Status code: { context.Response.StatusCode}",context.Response.StatusCode,context.Request?.Headers["X-Correlation-ID"]);
+        var correlation=HttpUtility.HtmlEncode(context.Request?.Headers["X-Correlation-ID"]);
+        _logger.LogError(exception, $"Error from {GetType().Namespace}. Status code: { context.Response.StatusCode}",context.Response.StatusCode,correlation);
         return context.Response.WriteAsync(JsonSerializer.Serialize(response.Error));
     }
 }
